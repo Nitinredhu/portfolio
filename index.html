@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-8CMVWM5299"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8CMVWM5299"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -73,13 +72,13 @@ body::before {
   opacity: 0.04; mix-blend-mode: overlay;
 }
 
-a, button { color: inherit; text-decoration: none; cursor: none; }
+a, button { color: inherit; text-decoration: none; cursor: none; border: none; background: none; }
 ul { list-style: none; }
 strong { font-weight: 600; color: var(--text-main); }
 
 /* Custom Cursor */
-.c-dot { width: 6px; height: 6px; background: var(--text-main); border-radius: 50%; position: fixed; pointer-events: none; z-index: 10000; transform: translate(-50%,-50%); transition: transform 0.1s ease-out, background 0.3s; }
-.c-ring { width: 40px; height: 40px; border: 1px solid var(--text-mute); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: width 0.3s var(--ease), height 0.3s var(--ease), border-color 0.3s, background 0.3s; }
+.c-dot { width: 6px; height: 6px; background: var(--text-main); border-radius: 50%; position: fixed; pointer-events: none; z-index: 100000; transform: translate(-50%,-50%); transition: transform 0.1s ease-out, background 0.3s; }
+.c-ring { width: 40px; height: 40px; border: 1px solid var(--text-mute); border-radius: 50%; position: fixed; pointer-events: none; z-index: 99999; transform: translate(-50%,-50%); transition: width 0.3s var(--ease), height 0.3s var(--ease), border-color 0.3s, background 0.3s; }
 .c-ring.expand { width: 60px; height: 60px; border-color: transparent; background: var(--highlight); backdrop-filter: blur(4px); }
 @media (max-width: 900px) { body, a, button { cursor: auto; } .c-dot, .c-ring { display: none; } }
 
@@ -89,9 +88,9 @@ strong { font-weight: 600; color: var(--text-main); }
 .d-1 { transition-delay: 0.15s; } .d-2 { transition-delay: 0.3s; } .d-3 { transition-delay: 0.45s; }
 
 /* Buttons */
-.btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--text-main); color: var(--bg-main); padding: 0.8rem 1.8rem; border-radius: 4px; font-family: var(--ff-mono); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; transition: transform 0.2s; }
+.btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--text-main); color: var(--bg-main); padding: 0.8rem 1.8rem; border-radius: 4px; font-family: var(--ff-mono); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; transition: transform 0.2s; cursor: none;}
 .btn-primary:hover { transform: translateY(-3px); }
-.btn-outline { display: inline-flex; align-items: center; gap: 0.5rem; border: 1px solid var(--border); color: var(--text-main); padding: 0.8rem 1.8rem; border-radius: 4px; font-family: var(--ff-mono); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; transition: transform 0.2s, background 0.2s; }
+.btn-outline { display: inline-flex; align-items: center; gap: 0.5rem; border: 1px solid var(--border); color: var(--text-main); padding: 0.8rem 1.8rem; border-radius: 4px; font-family: var(--ff-mono); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; transition: transform 0.2s, background 0.2s; cursor: none;}
 .btn-outline:hover { background: var(--highlight); transform: translateY(-3px); }
 
 /* Main Window */
@@ -118,7 +117,7 @@ strong { font-weight: 600; color: var(--text-main); }
 .nav-resume { border: 1px solid var(--border); padding: 0.4rem 1rem; border-radius: 4px; transition: background 0.2s; }
 .nav-resume:hover { background: var(--text-main); color: var(--bg-main); }
 
-/* Hero Section - 1fr 1fr for perfect center */
+/* Hero Section */
 .hero-split { display: grid; grid-template-columns: 1fr 1fr; min-height: 85vh; position: relative; }
 .hero-left { padding: 5rem; display: flex; flex-direction: column; justify-content: center; border-right: 1px solid var(--border); position: relative; z-index: 10; }
 .hero-right { position: relative; overflow: hidden; background: var(--bg-page); }
@@ -138,7 +137,7 @@ strong { font-weight: 600; color: var(--text-main); }
 .h-stat-n { font-family: var(--ff-head); font-size: 2.2rem; font-weight: 800; letter-spacing: -0.04em; }
 .h-stat-l { font-family: var(--ff-mono); font-size: 0.65rem; color: var(--text-mute); text-transform: uppercase; margin-top: 0.2rem; letter-spacing: 0.05em; }
 
-/* Theme toggle button - exactly in center */
+/* Theme toggle button */
 .theme-magnet-wrapper { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 120px; height: 120px; z-index: 50; display: flex; align-items: center; justify-content: center; }
 .theme-toggle-btn { width: 75px; height: 75px; border-radius: 50%; background: var(--accent); color: var(--bg-main); border: 4px solid var(--bg-main); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; transition: transform 0.2s ease-out, box-shadow 0.3s; pointer-events: none; }
 .theme-magnet-wrapper:hover .theme-toggle-btn { box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
@@ -197,7 +196,6 @@ strong { font-weight: 600; color: var(--text-main); }
   box-shadow: 0 15px 35px rgba(0,0,0,0.03); max-width: 850px; width: 100%; margin: 0 auto;
 }
 
-/* Plain text email */
 .plain-email {
   flex-basis: 100%; text-align: center;
   font-family: var(--ff-mono); font-size: 1rem; font-weight: 100; 
@@ -224,6 +222,54 @@ strong { font-weight: 600; color: var(--text-main); }
   text-transform: uppercase; letter-spacing: 0.05em; background: var(--bg-main);
 }
 
+/* ════════════════════════════════════════
+   RESUME MODAL STYLES
+════════════════════════════════════════ */
+.resume-modal {
+  position: fixed; inset: 0; z-index: 99990;
+  background: var(--bg-glass); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  display: flex; justify-content: center; align-items: flex-start;
+  padding: 4rem 2rem; overflow-y: auto;
+  opacity: 0; pointer-events: none; transition: opacity 0.4s var(--ease);
+}
+.resume-modal.active {
+  opacity: 1; pointer-events: auto;
+}
+.resume-content {
+  background: var(--bg-main); border: 1px solid var(--border);
+  border-radius: 8px; width: 100%; max-width: 850px; padding: 4rem;
+  position: relative; transform: translateY(30px); transition: transform 0.4s var(--ease), background 0.6s var(--ease);
+  box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+}
+.resume-modal.active .resume-content {
+  transform: translateY(0);
+}
+.close-btn {
+  position: absolute; top: 1.5rem; right: 1.5rem;
+  background: var(--highlight); border: 1px solid var(--border-dim);
+  color: var(--text-main); width: 40px; height: 40px; border-radius: 50%;
+  font-family: var(--ff-mono); font-size: 1.2rem; cursor: pointer;
+  display: flex; justify-content: center; align-items: center;
+  transition: transform 0.2s, background 0.2s;
+}
+.close-btn:hover {
+  transform: rotate(90deg); background: var(--text-main); color: var(--bg-main);
+}
+.res-header { margin-bottom: 3rem; text-align: center; }
+.res-name { font-family: var(--ff-head); font-size: 3rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 0.5rem; }
+.res-contact { font-family: var(--ff-mono); font-size: 0.8rem; color: var(--text-mute); }
+.res-section { margin-bottom: 2.5rem; }
+.res-title { font-family: var(--ff-mono); font-size: 0.85rem; text-transform: uppercase; color: var(--text-main); font-weight: 700; border-bottom: 1px solid var(--border-dim); padding-bottom: 0.5rem; margin-bottom: 1.5rem; letter-spacing: 0.05em; }
+.res-text { font-size: 0.95rem; line-height: 1.7; margin-bottom: 0.8rem; color: var(--text-mute); }
+.res-text strong { color: var(--text-main); font-weight: 600; }
+.res-item { margin-bottom: 2rem; }
+.res-item-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.8rem; flex-wrap: wrap; gap: 0.5rem; }
+.res-item-title { font-family: var(--ff-head); font-size: 1.4rem; font-weight: 700; color: var(--text-main); }
+.res-item-tools { font-family: var(--ff-mono); font-size: 0.7rem; background: var(--highlight); padding: 0.3rem 0.8rem; border-radius: 100px; color: var(--text-main); font-weight: 600; }
+.res-list { list-style: none; padding-left: 0; }
+.res-list li { font-size: 0.95rem; line-height: 1.6; color: var(--text-mute); margin-bottom: 0.6rem; position: relative; padding-left: 1.2rem; }
+.res-list li::before { content: "▹"; position: absolute; left: 0; top: 0; color: var(--text-main); font-family: var(--ff-mono); }
+
 /* Responsive */
 @media (max-width: 1100px) {
   .hero-split { grid-template-columns: 1fr; }
@@ -243,6 +289,8 @@ strong { font-weight: 600; color: var(--text-main); }
   .pari-row { grid-template-columns: 1fr; gap: 0.2rem; }
   .contact-glass-box { padding: 2rem; }
   .dash-header { flex-direction: column; align-items: flex-start; }
+  .resume-content { padding: 2.5rem 1.5rem; }
+  .res-name { font-size: 2.2rem; }
 }
 </style>
 </head>
@@ -259,7 +307,7 @@ strong { font-weight: 600; color: var(--text-main); }
       <a href="#projects" class="reg">Projects</a>
       <a href="#dashboard" class="reg">Live Data</a>
       <a href="#contact" class="reg">Contact</a>
-      <a href="./Nitish_Resume.pdf" target="_blank" class="nav-resume">Resume ↗</a>
+      <button id="navViewResume" class="nav-resume">Resume ↗</button>
     </div>
   </div>
 
@@ -274,7 +322,7 @@ strong { font-weight: 600; color: var(--text-main); }
 
       <div class="hero-actions reveal d-2">
         <a href="#projects" class="btn-primary">View Projects</a>
-        <a href="./Nitish_Resume.pdf" class="btn-outline">Download Resume</a>
+        <button id="viewResumeBtn" class="btn-outline">View Resume</button>
       </div>
 
       <div class="hero-stats reveal d-3">
@@ -421,7 +469,77 @@ strong { font-weight: 600; color: var(--text-main); }
     Designed & built by Nitish Redhu · Data Analyst · Haryana, India · 2026
   </div>
 
-</div>
+  <div class="resume-modal" id="resumeModal">
+    <div class="resume-content">
+      <button class="close-btn" id="closeResumeBtn">✕</button>
+      
+      <div class="res-header">
+        <h2 class="res-name">Nitish Redhu</h2>
+        <p class="res-contact">nitinredhu97@gmail.com | Haryana | LinkedIn | GitHub</p>
+      </div>
+
+      <div class="res-section">
+        <div class="res-title">About Me</div>
+        <p class="res-text">Data Analyst with hands-on experience in SQL (PostgreSQL), Excel, and Power BI. Skilled in data cleaning, exploratory data analysis, and building interactive dashboards to derive actionable business insights. Seeking Data Analyst roles where I can apply data-driven insights to solve business problems.</p>
+      </div>
+
+      <div class="res-section">
+        <div class="res-title">Skills</div>
+        <p class="res-text"><strong>Technical:</strong> SQL (PostgreSQL, MySQL), Power BI, Microsoft Excel, Python, R Language, Google Sheets</p>
+        <p class="res-text"><strong>Data Analytics:</strong> Data Cleaning, Data Validation, Data Visualization, Dashboard Reporting, Business Analytics, Data Storytelling</p>
+        <p class="res-text"><strong>Soft Skills:</strong> Communication, Critical Thinking, Collaboration, Time Management & Remote Collaboration</p>
+      </div>
+
+      <div class="res-section">
+        <div class="res-title">Practical Experience</div>
+        
+        <div class="res-item">
+          <div class="res-item-header">
+            <span class="res-item-title">Customer Churn Analysis</span>
+            <span class="res-item-tools">PostgreSQL + Power BI</span>
+          </div>
+          <ul class="res-list">
+            <li>Designed a database schema in PostgreSQL to analyze a 7,000+ customer dataset, executing SQL queries to uncover key drivers of customer attrition.</li>
+            <li>Identified 26.54% churn rate and $139K revenue loss through key business metrics.</li>
+            <li>Designed an interactive Power BI dashboard to identify churn trends across contract type, tenure, payment method, and monthly charges.</li>
+          </ul>
+        </div>
+
+        <div class="res-item">
+          <div class="res-item-header">
+            <span class="res-item-title">E-Commerce Customer Behavior & Sales Analysis</span>
+            <span class="res-item-tools">PostgreSQL, SQL, Power BI</span>
+          </div>
+          <ul class="res-list">
+            <li>Analyzed 95,000+ e-commerce transactions using SQL to uncover customer purchasing patterns and revenue trends.</li>
+            <li>Built an interactive Power BI dashboard to visualize sales performance, order volume, and top product categories.</li>
+            <li>Performed data cleaning, exploratory analysis, and business insight generation using PostgreSQL.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="res-section">
+        <div class="res-title">Education & Achievements</div>
+        <p class="res-text"><strong>B.Tech, Information Technology (2022 - 2026)</strong><br>Seth Jai Parkash Mukand Lal Institute of Engineering & Technology, Radaur</p>
+        <ul class="res-list">
+          <li>Recognized for leadership and contribution to JMIT Reports team.</li>
+          <li>Awarded 'Best Team' for effective communication and collaboration in JMIT Capsule News Reports.</li>
+          <li>Earned District-level Certificate for excellence in inter-college competition.</li>
+        </ul>
+      </div>
+
+      <div class="res-section">
+        <div class="res-title">Certifications</div>
+        <ul class="res-list">
+          <li>Data Analyst in Power BI & Associate Data Analyst in SQL (DataCamp 2026)</li>
+          <li>Google Data Analytic Certificate (Coursera 2025)</li>
+          <li>Prompt Engineering for Generative AI (NSDC & Internshala 2025)</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+  </div>
 
 <script>
 'use strict';
@@ -570,6 +688,35 @@ document.querySelectorAll('.f-btn').forEach(btn => {
     makeCharts();
   });
 });
+
+/* Resume Modal Logic */
+const viewResumeBtn = document.getElementById('viewResumeBtn');
+const navViewResume = document.getElementById('navViewResume');
+const resumeModal = document.getElementById('resumeModal');
+const closeResumeBtn = document.getElementById('closeResumeBtn');
+
+function openModal(e) {
+  if(e) e.preventDefault();
+  resumeModal.classList.add('active');
+  document.body.style.overflow = 'hidden'; 
+}
+
+if(viewResumeBtn) viewResumeBtn.addEventListener('click', openModal);
+if(navViewResume) navViewResume.addEventListener('click', openModal);
+
+if(closeResumeBtn) {
+  closeResumeBtn.addEventListener('click', () => {
+    resumeModal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+  });
+}
+
+window.addEventListener('click', (e) => {
+  if (e.target === resumeModal) {
+    resumeModal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+  }
+});
 </script>
 </body>
-</html> 
+</html>
