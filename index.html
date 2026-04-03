@@ -3,8 +3,8 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/jpeg" href="logo.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-8CMVWM5299"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -21,6 +21,7 @@
     href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;700&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
     :root {
       --bg-page: #EAE9E4;
@@ -1015,133 +1016,148 @@
       }
     }
 
-   /* --- Data Bar Transition Preloader Styles --- */
-#data-preloader {
-  position: fixed;
-  inset: 0;
-  z-index: 9999999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-}
+    /* --- Data Bar Transition Preloader Styles --- */
+    #data-preloader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
 
-/* Staggered Bar Background */
-.data-bars {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  width: 100vw;
-  height: 100vh;
-}
+    /* Staggered Bar Background */
+    .data-bars {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      width: 100vw;
+      height: 100vh;
+    }
 
-.bar {
-  flex: 1;
-  height: 100%;
-  background: var(--bg-page); /* Theme ke background color se match karega */
-  border-right: 1px solid var(--highlight); /* Halki si grid line data feel ke liye */
-  transform-origin: top;
-  /* Smooth sliding animation */
-  transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
-}
+    .bar {
+      flex: 1;
+      height: 100%;
+      background: var(--bg-page);
+      /* Theme ke background color se match karega */
+      border-right: 1px solid var(--highlight);
+      /* Halki si grid line data feel ke liye */
+      transform-origin: top;
+      /* Smooth sliding animation */
+      transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
+    }
 
-.bar:last-child {
-  border-right: none;
-}
+    .bar:last-child {
+      border-right: none;
+    }
 
-/* Delay for the staggered "Bar Chart" effect */
-.bar:nth-child(1) { transition-delay: 0.0s; }
-.bar:nth-child(2) { transition-delay: 0.1s; }
-.bar:nth-child(3) { transition-delay: 0.2s; }
-.bar:nth-child(4) { transition-delay: 0.3s; }
-.bar:nth-child(5) { transition-delay: 0.4s; }
+    /* Delay for the staggered "Bar Chart" effect */
+    .bar:nth-child(1) {
+      transition-delay: 0.0s;
+    }
 
-/* Text Content Styling */
-.loader-content {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  transition: opacity 0.4s ease;
-}
+    .bar:nth-child(2) {
+      transition-delay: 0.1s;
+    }
 
-.loading-text {
-  font-family: var(--ff-head);
-  font-size: 4.5rem;
-  font-weight: 800;
-  color: var(--text-main);
-  letter-spacing: -0.03em;
-}
+    .bar:nth-child(3) {
+      transition-delay: 0.2s;
+    }
 
-.loading-label {
-  font-family: var(--ff-mono);
-  font-size: 0.8rem;
-  color: var(--text-mute);
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-}
+    .bar:nth-child(4) {
+      transition-delay: 0.3s;
+    }
 
-/* --- The Reveal Animation --- */
-/* 1. Text gayab hoga */
-body.loaded .loader-content {
-  opacity: 0; 
-}
+    .bar:nth-child(5) {
+      transition-delay: 0.4s;
+    }
 
-/* 2. Bars upar jayenge */
-body.loaded .bar {
-  transform: scaleY(0); 
-}
+    /* Text Content Styling */
+    .loader-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      transition: opacity 0.4s ease;
+    }
 
-/* 3. Main Website halki si zoom-in se focus me aayegi */
-.window-frame {
-  opacity: 0;
-  transform: translateY(30px) scale(0.98);
-  transition: opacity 1.2s ease 0.5s, transform 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.5s;
-}
+    .loading-text {
+      font-family: var(--ff-head);
+      font-size: 4.5rem;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.03em;
+    }
 
-body.loaded .window-frame {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
+    .loading-label {
+      font-family: var(--ff-mono);
+      font-size: 0.8rem;
+      color: var(--text-mute);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+    }
 
-/* Highlighted Contact Link */
-.nav-links a.nav-highlight {
-  border: 1px solid var(--border);
-  padding: 0.4rem 1.2rem;
-  border-radius: 4px;
-  background: var(--text-main);
-  color: var(--bg-main);
-  transition: all 0.3s var(--ease);
-  display: inline-block;
-}
+    /* --- The Reveal Animation --- */
+    /* 1. Text gayab hoga */
+    body.loaded .loader-content {
+      opacity: 0;
+    }
 
-.nav-links a.nav-highlight:hover {
-  background: transparent;
-  color: var(--text-main);
-  transform: translateY(-2px);
-}
+    /* 2. Bars upar jayenge */
+    body.loaded .bar {
+      transform: scaleY(0);
+    }
 
+    /* 3. Main Website halki si zoom-in se focus me aayegi */
+    .window-frame {
+      opacity: 0;
+      transform: translateY(30px) scale(0.98);
+      transition: opacity 1.2s ease 0.5s, transform 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.5s;
+    }
+
+    body.loaded .window-frame {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    /* Highlighted Contact Link */
+    .nav-links a.nav-highlight {
+      border: 1px solid var(--border);
+      padding: 0.4rem 1.2rem;
+      border-radius: 4px;
+      background: var(--text-main);
+      color: var(--bg-main);
+      transition: all 0.3s var(--ease);
+      display: inline-block;
+    }
+
+    .nav-links a.nav-highlight:hover {
+      background: transparent;
+      color: var(--text-main);
+      transform: translateY(-2px);
+    }
   </style>
 </head>
 
 <body>
 
- <div id="data-preloader">
-  <div class="data-bars">
-    <div class="bar"></div>
-    <div class="bar"></div>
-    <div class="bar"></div>
-    <div class="bar"></div>
-    <div class="bar"></div>
-  </div>
+  <div id="data-preloader">
+    <div class="data-bars">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+    </div>
 
-  <div class="loader-content">
-    <div class="loading-text" id="loadText">0%</div>
-    <div class="loading-label">PROCESSING DATA</div>
+    <div class="loader-content">
+      <div class="loading-text" id="loadText">0%</div>
+      <div class="loading-label">PROCESSING DATA</div>
+    </div>
   </div>
-</div>
 
   <div id="scroll-progress"></div>
   <div class="c-dot" id="cDot"></div>
@@ -1279,80 +1295,17 @@ body.loaded .window-frame {
           Reach out on any platform below.</p>
       </div>
       <div class="contact-glass-box reveal d-1">
-        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=nitinredhu97@gmail.com" target="_blank" class="plain-email"><span>Email me:</span> nitinredhu97@gmail.com</a>
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=nitinredhu97@gmail.com&su=Inquiry&body=Hi%20Nitish," 
+     target="_blank" 
+     class="plain-email">
+    <span>Email me:</span> nitinredhu97@gmail.com
+  </a>
         <a href="https://www.linkedin.com/in/nitish-redhu/" target="_blank" class="soc-btn"><i
             class="fa-brands fa-linkedin"></i> LinkedIn</a>
       </div>
     </div>
 
     <div class="footer-minimal">Designed & built by Nitish Redhu · Data Analyst Student · Haryana, India · 2026</div>
-
-    <div class="resume-modal" id="resumeModal">
-      <div class="resume-content">
-        <button class="close-btn" id="closeResumeBtn">✕</button>
-        <div class="res-header">
-          <h2 class="res-name">Nitish Redhu</h2>
-          <p class="res-contact">nitinredhu97@gmail.com · Haryana · LinkedIn · GitHub</p>
-        </div>
-        <div class="res-section">
-          <div class="res-title">About Me</div>
-          <p class="res-text">Data Analytics Student with hands-on experience in SQL (PostgreSQL), Excel, and Power BI.
-            Seeking Data Analyst roles where I can learn and apply data-driven problem solving.</p>
-        </div>
-        <div class="res-section">
-          <div class="res-title">Education</div>
-          <div class="res-item">
-            <div class="res-item-header"><span class="res-item-title">B.Tech — Information Technology</span><span
-                class="res-item-tools">2022 — 2026</span></div>
-            <p class="res-text">JMIT, Radaur</p>
-          </div>
-        </div>
-        <div class="res-section">
-          <div class="res-title">Projects</div>
-          <div class="res-item">
-            <div class="res-item-header"><span class="res-item-title">Telco Customer Churn Reduction</span><span
-                class="res-item-tools">PostgreSQL · Power BI</span></div>
-            <ul class="res-list">
-              <li>Identified 26.54% churn causing ₹139K annual revenue loss</li>
-              <li>Month-to-month contracts in first 6 months = highest risk group</li>
-            </ul>
-          </div>
-          <div class="res-item">
-            <div class="res-item-header"><span class="res-item-title">E-Commerce Revenue Drivers</span><span
-                class="res-item-tools">SQL · Data Viz</span></div>
-            <ul class="res-list">
-              <li>Top 3 categories drive 68% of total order volume from 95K orders</li>
-            </ul>
-          </div>
-          <div class="res-item">
-            <div class="res-item-header"><span class="res-item-title">Bellabeat Marketing Strategy</span><span
-                class="res-item-tools">R · Statistics</span></div>
-            <ul class="res-list">
-              <li>Found step count doesn't correlate strongly with sleep quality</li>
-            </ul>
-          </div>
-          <div class="res-item">
-            <div class="res-item-header"><span class="res-item-title">Student Productivity Analysis</span><span
-                class="res-item-tools">Python · Excel</span></div>
-            <ul class="res-list">
-              <li>High focus sessions scored avg 76.73 vs Low focus 64.76 — time wasn't the factor</li>
-            </ul>
-          </div>
-        </div>
-        <div class="res-section">
-          <div class="res-title">Certifications</div>
-          <p class="res-text">Google Data Analytics Certificate · Associate Data Analyst in SQL (DataCamp) · Data
-            Analyst in Power BI (DataCamp) · Prompt Engineering for AI (NSDC)</p>
-        </div>
-        <div class="res-section">
-          <div class="res-title">Skills</div>
-          <p class="res-text"><strong>Technical:</strong> SQL (PostgreSQL, MySQL), Power BI, Microsoft Excel, Python, R
-            Language, Google Sheets</p>
-          <p class="res-text"><strong>Analytical:</strong> Data Cleaning, Validation, Visualization, Dashboard
-            Reporting, Data Storytelling</p>
-        </div>
-      </div>
-    </div>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -1475,31 +1428,31 @@ body.loaded .window-frame {
     if (resumeModal) resumeModal.addEventListener('click', e => { if (e.target === resumeModal) closeResume(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeResume(); });
 
-   // --- Data Bar Transition Logic ---
-window.addEventListener('load', () => {
-  const loadText = document.getElementById('loadText');
-  let progress = 0;
+    // --- Data Bar Transition Logic ---
+    window.addEventListener('load', () => {
+      const loadText = document.getElementById('loadText');
+      let progress = 0;
 
-  // Percentage badhane ka function
-  const interval = setInterval(() => {
-    // Random numbers se progress badhegi (like real loading)
-    progress += Math.floor(Math.random() * 15) + 5; 
-    
-    if(progress >= 100) {
-      progress = 100;
-      loadText.innerText = progress + '%';
-      clearInterval(interval);
+      // Percentage badhane ka function
+      const interval = setInterval(() => {
+        // Random numbers se progress badhegi (like real loading)
+        progress += Math.floor(Math.random() * 15) + 5;
 
-      // 100% hone ke theek baad 'loaded' class add kar dein
-      setTimeout(() => {
-        document.body.classList.add('loaded');
-      }, 300); // 100% par thoda sa pause
-      
-    } else {
-      loadText.innerText = progress + '%';
-    }
-  }, 100); // Har 0.1s me text update hoga
-});
+        if (progress >= 100) {
+          progress = 100;
+          loadText.innerText = progress + '%';
+          clearInterval(interval);
+
+          // 100% hone ke theek baad 'loaded' class add kar dein
+          setTimeout(() => {
+            document.body.classList.add('loaded');
+          }, 300); // 100% par thoda sa pause
+
+        } else {
+          loadText.innerText = progress + '%';
+        }
+      }, 100); // Har 0.1s me text update hoga
+    });
   </script>
 </body>
 
