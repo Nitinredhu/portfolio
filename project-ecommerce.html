@@ -1,0 +1,404 @@
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>E-Commerce Revenue Drivers — Nitish Redhu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.45.2/dist/apexcharts.min.js"></script>
+
+  <style>
+  :root {
+    --bg: #EAE9E4; --surface: #F8F7F4; --text: #111111; --mute: #555555;
+    --border: #111111; --dim: #dddddd; --hl: rgba(17,17,17,0.05);
+    --accent: #3b82f6; 
+    --ff-head: 'Bricolage Grotesque', sans-serif;
+    --ff-body: 'Inter', sans-serif;
+    --ff-mono: 'JetBrains Mono', monospace;
+    --ease: cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  /* Proper Dark Mode Variables */
+  :root[data-theme="dark"] {
+    --bg: #0A0A0A; 
+    --surface: #121212; 
+    --text: #F4F4F0; 
+    --mute: #A0A0A0;
+    --border: #444444; 
+    --dim: #2a2a2a; 
+    --hl: rgba(244, 244, 240, 0.08);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; font-size: 16px; overflow-x: hidden; }
+
+  /* Background Noise */
+  body { 
+      font-family: var(--ff-body); background: var(--bg); color: var(--text); 
+      padding: 2rem; transition: background 0.6s var(--ease), color 0.6s var(--ease); 
+      cursor: none; position: relative; overflow-x: hidden; min-height: 100vh;
+  }
+  body::before {
+      content: ""; position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity: 0.035; mix-blend-mode: overlay;
+  }
+
+  /* Custom Cursor */
+  .c-dot { width: 6px; height: 6px; background: var(--text); border-radius: 50%; position: fixed; pointer-events: none; z-index: 100000; transform: translate(-50%, -50%); transition: background 0.3s; }
+  .c-ring { width: 40px; height: 40px; border: 1px solid var(--mute); border-radius: 50%; position: fixed; pointer-events: none; z-index: 99999; transform: translate(-50%, -50%); transition: width 0.3s var(--ease), height 0.3s var(--ease), border-color 0.3s, background 0.3s; }
+  .c-ring.expand { width: 60px; height: 60px; border-color: transparent; background: var(--hl); backdrop-filter: blur(4px); }
+  @media (max-width: 900px) { body, a, button { cursor: auto !important; } .c-dot, .c-ring { display: none; } }
+  a, button { cursor: none; }
+
+  /* Scroll Reveal Animations */
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.9s var(--ease), transform 0.9s var(--ease); will-change: opacity, transform; }
+  .reveal.active { opacity: 1; transform: translateY(0); }
+  .d-1 { transition-delay: 0.1s; }
+  .d-2 { transition-delay: 0.2s; }
+
+  .wrap { width: 94vw; max-width: 1200px; margin: 0 auto; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; position: relative; z-index: 10; transition: background 0.6s var(--ease), border-color 0.6s var(--ease);}
+
+  /* Remaining Project CSS */
+  .s-block { padding: 3rem 4rem; border-bottom: 1px solid var(--dim); transition: border-color 0.6s var(--ease); }
+  @media(max-width: 768px) { .s-block { padding: 2.5rem 1.5rem; } }
+  .s-label { font-family: var(--ff-mono); font-size: 0.75rem; color: var(--mute); text-transform: uppercase; font-weight: 700; margin-bottom: 1.2rem; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.5rem; }
+  .s-label::before { content: ""; display: block; width: 6px; height: 6px; background: var(--border); border-radius: 50%; }
+
+  .proj-title { font-family: var(--ff-head); font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 1rem; }
+  .impact-summary { font-size: 1.25rem; color: var(--mute); line-height: 1.5; font-weight: 400; max-width: 800px; }
+
+  .kpi-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; background: var(--hl); border: 1px solid var(--dim); border-radius: 8px; padding: 2rem; transition: background 0.6s var(--ease), border-color 0.6s var(--ease); }
+  @media(max-width: 768px) { .kpi-strip { grid-template-columns: 1fr 1fr; } }
+  .kpi-v { font-family: var(--ff-head); font-size: 2.2rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1; margin-bottom: 0.4rem; }
+  .kpi-l { font-family: var(--ff-mono); font-size: 0.7rem; color: var(--mute); text-transform: uppercase; font-weight: 700; }
+
+  .text-content p { font-size: 1.05rem; line-height: 1.7; color: var(--text); margin-bottom: 1rem; }
+  .text-content strong { font-weight: 600; color: var(--text); }
+
+  .demo-bg { background: var(--bg); transition: background 0.6s var(--ease);}
+  .live-badge { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--ff-mono); font-size: 0.7rem; color: var(--mute); border: 1px solid var(--dim); padding: 0.3rem 0.8rem; border-radius: 100px; margin-bottom: 1.5rem; background: var(--surface); }
+  .pulse { width: 7px; height: 7px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 8px #22c55e; animation: blink 2s infinite; }
+  @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
+  .demo-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
+  .filter-row { display: flex; gap: 0.4rem; background: rgba(17,17,17,0.06); padding: 0.3rem; border-radius: 100px; }
+  :root[data-theme="dark"] .filter-row { background: rgba(244,244,240,0.06); }
+  .f-btn { font-family: var(--ff-mono); font-size: 0.72rem; text-transform: uppercase; padding: 0.45rem 1rem; border-radius: 100px; border: none; background: transparent; color: var(--mute); cursor: pointer; transition: all 0.2s; font-weight: 600; }
+  .f-btn.on { background: var(--text); color: var(--surface); }
+
+  .kpi-demo { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-bottom: 2rem; }
+  @media(max-width: 768px) { .kpi-demo { grid-template-columns: 1fr; } }
+  .kd { border: 1px solid var(--dim); padding: 1.2rem; border-radius: 6px; background: var(--surface); transition: border-color 0.6s var(--ease), background 0.6s var(--ease); }
+  .kd-l { font-family: var(--ff-mono); font-size: 0.65rem; color: var(--mute); text-transform: uppercase; font-weight: 600; }
+  .kd-v { font-family: var(--ff-head); font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-top: 0.2rem; }
+  .kd-s { font-family: var(--ff-mono); font-size: 0.65rem; margin-top: 0.3rem; display: inline-block; padding: 0.2rem 0.5rem; background: var(--hl); border-radius: 4px; font-weight: 600; }
+
+  .charts-row { display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; }
+  @media(max-width: 768px) { .charts-row { grid-template-columns: 1fr; } }
+  .chart-box { background: var(--surface); border: 1px solid var(--dim); border-radius: 8px; padding: 1.5rem; transition: background 0.6s var(--ease), border-color 0.6s var(--ease); }
+  .chart-lbl { font-family: var(--ff-mono); font-size: 0.72rem; color: var(--mute); text-transform: uppercase; margin-bottom: 0.8rem; font-weight: 700; }
+
+  .insights-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; }
+  @media(max-width: 768px) { .insights-grid { grid-template-columns: 1fr; } }
+  .insight-card { padding: 1.5rem; border: 1px solid var(--dim); border-radius: 6px; background: var(--bg); transition: background 0.6s var(--ease), border-color 0.6s var(--ease);}
+  .insight-num { font-family: var(--ff-mono); font-size: 0.65rem; color: var(--mute); text-transform: uppercase; font-weight: 700; margin-bottom: 0.8rem; border-bottom: 1px solid var(--dim); padding-bottom: 0.5rem;}
+  .insight-text { font-size: 0.95rem; line-height: 1.6; color: var(--mute);}
+
+  .impact-mega-box { background: var(--text); color: var(--surface); padding: 3rem; border-radius: 8px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); transition: background 0.6s var(--ease), color 0.6s var(--ease); }
+  .impact-mega-box .s-label { color: var(--bg); opacity: 0.6;}
+  .impact-mega-box .s-label::before { background: var(--surface); }
+  .impact-mega-text { font-family: var(--ff-head); font-size: 1.8rem; font-weight: 600; line-height: 1.4; letter-spacing: -0.02em; }
+  .impact-mega-text highlight { color: #facc15; font-weight: 800; }
+
+  .links-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .ext-link { display: inline-flex; align-items: center; gap: 0.6rem; font-family: var(--ff-mono); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; padding: 0.8rem 1.5rem; border: 1px solid var(--border); border-radius: 4px; text-decoration: none; color: var(--text); transition: all 0.2s; }
+  .ext-link:hover { background: var(--text); color: var(--surface); }
+  .ext-link.primary { background: var(--text); color: var(--surface); }
+
+  .top-nav-bar { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 4rem; border-bottom: 1px solid var(--dim); background: var(--bg); transition: background 0.6s var(--ease), border-color 0.6s var(--ease);}
+  @media(max-width: 768px) { .top-nav-bar { padding: 1.5rem; flex-direction: column; gap: 1rem; align-items: flex-start; } }
+  .q-btn { font-family: var(--ff-mono); font-size: 0.7rem; text-transform: uppercase; font-weight: 700; color: var(--text); border: 1px solid var(--dim); padding: 0.4rem 1rem; border-radius: 100px; text-decoration: none; transition: all 0.2s; background: var(--surface); }
+  .q-btn:hover { background: var(--text); color: var(--surface); border-color: var(--text); }
+
+  /* --- Fast Page Reveal Styles --- */
+  #page-transition {
+    position: fixed;
+    inset: 0;
+    z-index: 9999999;
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none; /* Clicks ko block nahi karega */
+  }
+
+  .t-bar {
+    flex: 1;
+    height: 100%;
+    background: var(--bg); /* Page ke background color se match karega */
+    border-right: 1px solid var(--highlight);
+    transform-origin: top;
+    /* Home page se fast animation hogi (0.7s) */
+    transition: transform 0.7s cubic-bezier(0.77, 0, 0.175, 1);
+  }
+
+  .t-bar:last-child {
+    border-right: none;
+  }
+
+  /* Staggered Delay - Ek ke baad ek bar upar jayegi */
+  .t-bar:nth-child(1) { transition-delay: 0.0s; }
+  .t-bar:nth-child(2) { transition-delay: 0.08s; }
+  .t-bar:nth-child(3) { transition-delay: 0.16s; }
+  .t-bar:nth-child(4) { transition-delay: 0.24s; }
+  .t-bar:nth-child(5) { transition-delay: 0.32s; }
+
+  /* Loaded hone par bars upar slide ho jayengi */
+  body.loaded #page-transition .t-bar {
+    transform: scaleY(0);
+  }
+
+  /* Page content halka sa neeche se upar aayega */
+  .wrap {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease 0.3s, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.3s;
+  }
+
+  body.loaded .wrap {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  </style>
+  </head>
+  <body>
+
+  <div id="page-transition">
+    <div class="t-bar"></div>
+    <div class="t-bar"></div>
+    <div class="t-bar"></div>
+    <div class="t-bar"></div>
+    <div class="t-bar"></div>
+  </div>
+  <div class="c-dot" id="cDot"></div>
+  <div class="c-ring" id="cRing"></div>
+
+  <div class="wrap">
+    
+    <div class="top-nav-bar">
+      <a href="index_minimalist.html#projects" class="q-btn" style="border:none; padding-left:0; background:transparent;">← Back to Portfolio</a>
+      <div style="display:flex; gap:0.5rem;">
+        <a href="project-churn.html" class="q-btn">← Prev</a>
+        <a href="project-bellabeat.html" class="q-btn">Next Project →</a>
+      </div>
+    </div>
+
+    <div class="s-block reveal">
+      <div class="s-label">01 / Overview</div>
+      <h1 class="proj-title">Brazilian E-Commerce Revenue Drivers</h1>
+      <p class="impact-summary">Analyzed 95,000+ historical orders using PostgreSQL to uncover extreme category concentration, recommending a targeted inventory strategy to free up ~22% in operational efficiency.</p>
+    </div>
+
+    <div class="s-block reveal d-1" style="padding-top: 1rem; border-bottom: none;">
+      <div class="s-label">02 / The Numbers</div>
+      <div class="kpi-strip">
+        <div><div class="kpi-v">95,000</div><div class="kpi-l">Orders Analyzed</div></div>
+        <div><div class="kpi-v">₹13.6M</div><div class="kpi-l">Total Revenue</div></div>
+        <div><div class="kpi-v">68%</div><div class="kpi-l">Top 3 Category Share</div></div>
+        <div><div class="kpi-v">22%</div><div class="kpi-l">Efficiency Gain Potential</div></div>
+      </div>
+    </div>
+
+    <div class="s-block reveal">
+      <div class="s-label">03 / The Problem</div>
+      <div class="text-content">
+        <p>The business was generating significant revenue (<strong>₹13.63M</strong>) but allocating marketing and inventory budgets blindly across dozens of product categories. Without visibility into which specific items were actually driving the volume, capital was being tied up in dead stock while high-velocity items risked stocking out.</p>
+      </div>
+    </div>
+
+    <div class="s-block reveal">
+      <div class="s-label">04 / My Approach</div>
+      <div class="text-content">
+        <p>The original Olist dataset was fragmented across multiple tables and contained Portuguese category names. I used <strong>PostgreSQL</strong> to clean, translate, and join the <code>orders</code>, <code>order_items</code>, and <code>products</code> tables into a single source of truth.</p>
+        <p>I then performed exploratory data analysis (EDA) using SQL aggregations to break down revenue by category and time period, eventually feeding the clean views into <strong>Power BI</strong> to build a dynamic executive dashboard.</p>
+      </div>
+    </div>
+
+    <div class="s-block demo-bg reveal">
+      <div class="s-label">05 / Interactive Dashboard Demo</div>
+      <div class="live-badge"><span class="pulse"></span> Active Demo — Olist Public Dataset (95K Orders)</div>
+      
+      <div class="demo-header">
+        <div style="font-family: var(--ff-head); font-size: 1.2rem; font-weight: 700;">Executive View</div>
+        <div class="filter-row">
+          <button class="f-btn on" data-f="all">All Time</button>
+          <button class="f-btn" data-f="2017">2017</button>
+          <button class="f-btn" data-f="2018">2018</button>
+        </div>
+      </div>
+
+      <div class="kpi-demo">
+        <div class="kd"><div class="kd-l">Total Revenue</div><div class="kd-v" id="kpiRev">₹13.63M</div><div class="kd-s" id="kpiRevSub">↑ 34% YoY</div></div>
+        <div class="kd"><div class="kd-l">Total Orders</div><div class="kd-v" id="kpiOrd">95,000</div><div class="kd-s" id="kpiOrdSub">↑ 28% YoY</div></div>
+        <div class="kd"><div class="kd-l">Avg Order Value</div><div class="kd-v" id="kpiAov">₹143.26</div><div class="kd-s" id="kpiAovSub">↑ 5% Change</div></div>
+      </div>
+
+      <div class="charts-row">
+        <div class="chart-box">
+          <div class="chart-lbl">Revenue Trend Over Time</div>
+          <div id="lineChart"></div>
+        </div>
+        <div class="chart-box">
+          <div class="chart-lbl">Top Categories by Volume</div>
+          <div id="barChart"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="s-block reveal">
+      <div class="s-label">06 / Key Data Insights</div>
+      <div class="insights-grid">
+        <div class="insight-card">
+          <div class="insight-num">Insight 01 — Extreme Concentration</div>
+          <div class="insight-text">The top 3 categories (Home/Bath, Beauty, Sports) drive a massive <strong>68% of total volume</strong>. The remaining 70+ categories contribute a fraction of the revenue but take up valuable warehouse space.</div>
+        </div>
+        <div class="insight-card">
+          <div class="insight-num">Insight 02 — A Maturing Market</div>
+          <div class="insight-text">Revenue hit a peak of ~₹1M/month in early 2018 and then stabilized. This flat post-peak trend indicates a maturing market, requiring a shift from growth-hacking to operational efficiency.</div>
+        </div>
+        <div class="insight-card">
+          <div class="insight-num">Insight 03 — Logistics are Solid</div>
+          <div class="insight-text">With a 96.2% successful delivery rate, fulfillment is not a bottleneck. I checked this early to rule out operational issues. The core opportunity lies entirely on the sales and inventory optimization side.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="s-block reveal" style="border-bottom:none;">
+      <div class="impact-mega-box">
+        <div class="s-label">07 / Business Impact & Recommendation</div>
+        <div class="impact-mega-text">
+          Management should immediately halt blanket inventory spending and aggressively reallocate budget toward the <highlight>Top 3 categories</highlight>. By cutting dead stock in the lowest-performing segments, the company can free up an estimated <highlight>22% in working capital</highlight> while ensuring zero stock-outs for high-demand items.
+        </div>
+      </div>
+    </div>
+
+    <div class="s-block reveal">
+      <div class="s-label">08 / Project Links</div>
+      <div class="links-row">
+        <a href="https://github.com/Nitinredhu/ecommerce-sales-analysis" target="_blank" class="ext-link primary">↗ View SQL/Code on GitHub</a>
+        <a href="index_minimalist.html#projects" class="ext-link">← Back to Portfolio</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+  'use strict';
+
+  // 1. Initialize Theme from LocalStorage First
+  const savedTheme = localStorage.getItem('nr-theme') || 'light';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+
+  // 2. Cursor Animation Logic
+  const cDot = document.getElementById('cDot');
+  const cRing = document.getElementById('cRing');
+  let mx2 = 0, my2 = 0, rx = 0, ry = 0;
+  if (window.innerWidth > 900) {
+      document.addEventListener('mousemove', e => {
+          mx2 = e.clientX; my2 = e.clientY;
+          cDot.style.left = mx2 + 'px'; cDot.style.top = my2 + 'px';
+      });
+      (function trackRing() {
+          rx += (mx2 - rx) * 0.18; ry += (my2 - ry) * 0.18;
+          cRing.style.left = rx + 'px'; cRing.style.top = ry + 'px';
+          requestAnimationFrame(trackRing);
+      })();
+      document.querySelectorAll('a, button, .f-btn, .insight-card, .chart-box, .kd').forEach(el => {
+          el.addEventListener('mouseenter', () => cRing.classList.add('expand'));
+          el.addEventListener('mouseleave', () => cRing.classList.remove('expand'));
+      });
+  }
+
+  // 3. Scroll Reveal Animation Logic
+  const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+          if (entry.isIntersecting) {
+              entry.target.classList.add('active');
+          }
+      });
+  }, { threshold: 0.1, rootMargin: "0px 0px -40px 0px" });
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+  // 4. Interactive Dashboard Logic
+  const DB = {
+    all:  { rev:[0.05,0.28,0.36,0.48,0.95,0.82,1.02,0.78], months:['Oct 16','Jan 17','Apr 17','Jul 17','Oct 17','Jan 18','Apr 18','Jul 18'], kpi:{rev:'₹13.63M',ord:'95,000',aov:'₹143.26',rs:'↑ 34% YoY',os:'↑ 28% YoY',as:'↑ 5% Change'} },
+    2017: { rev:[0.28,0.36,0.48,0.95], months:['Jan 17','Apr 17','Jul 17','Oct 17'], kpi:{rev:'₹5.2M',ord:'41K',aov:'₹127.10',rs:'2017 Only',os:'2017 Only',as:'Base Year'} },
+    2018: { rev:[0.82,1.02,0.78], months:['Jan 18','Apr 18','Jul 18'], kpi:{rev:'₹8.1M',ord:'54K',aov:'₹150.45',rs:'↑ 56% vs 2017',os:'↑ 32% vs 2017',as:'↑ 18% vs 2017'} }
+  };
+  const CATS = { names:['Home/Bath','Beauty','Sports','Furniture','Electronics','Utilities'], orders:[11.5, 9.8, 8.5, 8.2, 7.8, 6.8] };
+  let lChart, bChart, curF = 'all';
+
+  function makeCharts() {
+    const d = DB[curF];
+    
+    // Dynamic colors based on theme
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const tc = isDark ? '#F4F4F0' : '#111111';
+    const gc = isDark ? '#2a2a2a' : '#e0e0e0';
+    const muteColor = isDark ? '#A0A0A0' : '#666666';
+    const chartMode = isDark ? 'dark' : 'light';
+    const mono = 'JetBrains Mono, monospace';
+    
+    if (lChart) lChart.destroy();
+    if (bChart) bChart.destroy();
+
+    lChart = new ApexCharts(document.getElementById('lineChart'), {
+      series: [{ name:'Revenue (₹M)', data:d.rev }],
+      chart: { type:'area', height:240, toolbar:{show:false}, background:'transparent', fontFamily:mono, animations:{enabled:true, easing:'easeinout', speed:700} },
+      theme: { mode: chartMode },
+      colors:[tc], fill:{type:'solid', opacity:0.07}, stroke:{curve:'straight', width:2}, dataLabels:{enabled:false},
+      grid:{borderColor:gc, strokeDashArray:4}, xaxis:{categories:d.months, labels:{style:{colors:muteColor}}, axisBorder:{show:false}, axisTicks:{show:false}},
+      yaxis:{labels:{formatter:v=>v.toFixed(1)+'M', style:{colors:tc}}}, tooltip:{theme: chartMode}
+    });
+
+    bChart = new ApexCharts(document.getElementById('barChart'), {
+      series: [{ name:'Orders (K)', data:CATS.orders }],
+      chart: { type:'bar', height:240, toolbar:{show:false}, background:'transparent', fontFamily:mono, animations:{enabled:true} },
+      theme: { mode: chartMode },
+      colors:[tc], plotOptions:{bar:{horizontal:true, barHeight:'60%', borderRadius: 2}}, dataLabels:{enabled:false},
+      grid:{borderColor:gc, strokeDashArray:4, xaxis:{lines:{show:true}}, yaxis:{lines:{show:false}}},
+      xaxis:{categories:CATS.names, labels:{formatter:v=>v+'K', style:{colors:muteColor}}, title: {text: 'Total Orders', style: {color: muteColor}}},
+      yaxis:{labels:{style:{colors:tc, fontSize:'11px'}}}, tooltip:{theme: chartMode}
+    });
+
+    lChart.render(); bChart.render();
+  }
+
+  document.querySelectorAll('.f-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('on'));
+      btn.classList.add('on');
+      curF = btn.dataset.f;
+      const k = DB[curF].kpi;
+      document.getElementById('kpiRev').textContent = k.rev;
+      document.getElementById('kpiOrd').textContent = k.ord;
+      document.getElementById('kpiAov').textContent = k.aov;
+      document.getElementById('kpiRevSub').textContent = k.rs;
+      document.getElementById('kpiOrdSub').textContent = k.os;
+      document.getElementById('kpiAovSub').textContent = k.as;
+      makeCharts();
+    });
+  });
+
+  setTimeout(makeCharts, 200);
+
+  // --- Fast Page Reveal Logic ---
+  window.addEventListener('load', () => {
+    // Page load hote hi turant animation trigger kar dega
+    setTimeout(() => { document.body.classList.add('loaded'); }, 50);
+  });
+  </script>
+
+  </body>
+  </html>

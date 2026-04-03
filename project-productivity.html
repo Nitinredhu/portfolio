@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Student Productivity Analysis — Nitish Redhu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/apexcharts@3.45.2/dist/apexcharts.min.js"></script>
+
+<style>
+:root {
+  --bg: #EAE9E4; --surface: #F8F7F4; --text: #111111; --mute: #555555;
+  --border: #111111; --dim: #dddddd; --hl: rgba(17,17,17,0.05);
+  --accent: #4A90D9; /* Blue accent for Productivity */
+  --ff-head: 'Bricolage Grotesque', sans-serif;
+  --ff-body: 'Inter', sans-serif;
+  --ff-mono: 'JetBrains Mono', monospace;
+  --ease: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Proper Dark Mode Variables */
+:root[data-theme="dark"] {
+  --bg: #0A0A0A; 
+  --surface: #121212; 
+  --text: #F4F4F0; 
+  --mute: #A0A0A0;
+  --border: #444444; 
+  --dim: #2a2a2a; 
+  --hl: rgba(244, 244, 240, 0.08);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; font-size: 16px; overflow-x: hidden; }
+
+/* Background Noise */
+body { 
+    font-family: var(--ff-body); background: var(--bg); color: var(--text); 
+    padding: 2rem; transition: background 0.6s var(--ease), color 0.6s var(--ease); 
+    cursor: none; position: relative; overflow-x: hidden; min-height: 100vh;
+}
+body::before {
+    content: ""; position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.035; mix-blend-mode: overlay;
+}
+
+/* Custom Cursor */
+.c-dot { width: 6px; height: 6px; background: var(--text); border-radius: 50%; position: fixed; pointer-events: none; z-index: 100000; transform: translate(-50%, -50%); transition: background 0.3s; }
+.c-ring { width: 40px; height: 40px; border: 1px solid var(--mute); border-radius: 50%; position: fixed; pointer-events: none; z-index: 99999; transform: translate(-50%, -50%); transition: width 0.3s var(--ease), height 0.3s var(--ease), border-color 0.3s, background 0.3s; }
+.c-ring.expand { width: 60px; height: 60px; border-color: transparent; background: var(--hl); backdrop-filter: blur(4px); }
+@media (max-width: 900px) { body, a, button { cursor: auto !important; } .c-dot, .c-ring { display: none; } }
+a, button { cursor: none; }
+
+/* Scroll Reveal Animations */
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.9s var(--ease), transform 0.9s var(--ease); will-change: opacity, transform; }
+.reveal.active { opacity: 1; transform: translateY(0); }
+.d-1 { transition-delay: 0.1s; }
+.d-2 { transition-delay: 0.2s; }
+
+.wrap { width: 94vw; max-width: 1200px; margin: 0 auto; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; position: relative; z-index: 10; transition: background 0.6s var(--ease), border-color 0.6s var(--ease);}
+
+/* Remaining Project CSS */
+.s-block { padding: 3rem 4rem; border-bottom: 1px solid var(--dim); transition: border-color 0.6s var(--ease); }
+@media(max-width: 768px) { .s-block { padding: 2.5rem 1.5rem; } }
+.s-label { font-family: var(--ff-mono); font-size: 0.75rem; color: var(--mute); text-transform: uppercase; font-weight: 700; margin-bottom: 1.2rem; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.5rem; }
+.s-label::before { content: ""; display: block; width: 6px; height: 6px; background: var(--border); border-radius: 50%; }
+
+.proj-title { font-family: var(--ff-head); font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 1rem; }
+.impact-summary { font-size: 1.25rem; color: var(--mute); line-height: 1.5; font-weight: 400; max-width: 800px; }
+
+.kpi-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; background: var(--hl); border: 1px solid var(--dim); border-radius: 8px; padding: 2rem; transition: background 0.6s var(--ease), border-color 0.6s var(--ease); }
+@media(max-width: 768px) { .kpi-strip { grid-template-columns: 1fr 1fr; } }
+.kpi-v { font-family: var(--ff-head); font-size: 2.2rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1; margin-bottom: 0.4rem; }
+.kpi-l { font-family: var(--ff-mono); font-size: 0.7rem; color: var(--mute); text-transform: uppercase; font-weight: 700; }
+
+.text-content p { font-size: 1.05rem; line-height: 1.7; color: var(--text); margin-bottom: 1rem; }
+.text-content strong { font-weight: 600; color: var(--text); }
+
+.demo-bg { background: var(--bg); transition: background 0.6s var(--ease);}
+.live-badge { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--ff-mono); font-size: 0.7rem; color: var(--mute); border: 1px solid var(--dim); padding: 0.3rem 0.8rem; border-radius: 100px; margin-bottom: 1.5rem; background: var(--surface); }
+.pulse { width: 7px; height: 7px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 8px var(--accent); animation: blink 2s infinite; }
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
+.charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1.5rem; }
+@media(max-width: 768px) { .charts-grid { grid-template-columns: 1fr; } }
+.chart-box { background: var(--surface); border: 1px solid var(--dim); border-radius: 8px; padding: 1.5rem; transition: background 0.6s var(--ease), border-color 0.6s var(--ease); }
+.chart-lbl { font-family: var(--ff-mono); font-size: 0.72rem; color: var(--mute); text-transform: uppercase; margin-bottom: 0.8rem; font-weight: 700; }
+
+.insights-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; }
+@media(max-width: 768px) { .insights-grid { grid-template-columns: 1fr; } }
+.insight-card { padding: 1.5rem; border: 1px solid var(--dim); border-radius: 6px; background: var(--bg); transition: background 0.6s var(--ease), border-color 0.6s var(--ease);}
+.insight-num { font-family: var(--ff-mono); font-size: 0.65rem; color: var(--mute); text-transform: uppercase; font-weight: 700; margin-bottom: 0.8rem; border-bottom: 1px solid var(--dim); padding-bottom: 0.5rem;}
+.insight-text { font-size: 0.95rem; line-height: 1.6; color: var(--mute);}
+
+.impact-mega-box { background: var(--text); color: var(--surface); padding: 3rem; border-radius: 8px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); transition: background 0.6s var(--ease), color 0.6s var(--ease); }
+.impact-mega-box .s-label { color: var(--bg); opacity: 0.6;}
+.impact-mega-box .s-label::before { background: var(--surface); }
+.impact-mega-text { font-family: var(--ff-head); font-size: 1.8rem; font-weight: 600; line-height: 1.4; letter-spacing: -0.02em; }
+.impact-mega-text highlight { color: #60a5fa; font-weight: 800; } 
+
+/* Table styling */
+.table-wrap { overflow-x: auto; margin-top: 1rem; border: 1px solid var(--dim); border-radius: 8px; }
+table { width: 100%; border-collapse: collapse; font-size: 0.9rem; background: var(--surface); }
+thead { background: var(--hl); }
+th { font-family: var(--ff-mono); font-size: 0.7rem; text-transform: uppercase; font-weight: 700; color: var(--mute); padding: 0.8rem 1rem; text-align: left; border-bottom: 1px solid var(--dim); }
+td { padding: 0.9rem 1rem; border-bottom: 1px solid var(--dim); }
+tr:last-child td { border-bottom: none; }
+.score-bar { display: flex; align-items: center; gap: 0.7rem; }
+.bar { height: 8px; background: var(--accent); border-radius: 4px; opacity: 0.8; }
+.score-val { font-family: var(--ff-mono); font-size: 0.85rem; font-weight: 700; }
+
+.links-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+.ext-link { display: inline-flex; align-items: center; gap: 0.6rem; font-family: var(--ff-mono); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; padding: 0.8rem 1.5rem; border: 1px solid var(--border); border-radius: 4px; text-decoration: none; color: var(--text); transition: all 0.2s; }
+.ext-link:hover { background: var(--text); color: var(--surface); }
+.ext-link.primary { background: var(--text); color: var(--surface); }
+
+.top-nav-bar { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 4rem; border-bottom: 1px solid var(--dim); background: var(--bg); transition: background 0.6s var(--ease), border-color 0.6s var(--ease);}
+@media(max-width: 768px) { .top-nav-bar { padding: 1.5rem; flex-direction: column; gap: 1rem; align-items: flex-start; } }
+.q-btn { font-family: var(--ff-mono); font-size: 0.7rem; text-transform: uppercase; font-weight: 700; color: var(--text); border: 1px solid var(--dim); padding: 0.4rem 1rem; border-radius: 100px; text-decoration: none; transition: all 0.2s; background: var(--surface); }
+.q-btn:hover { background: var(--text); color: var(--surface); border-color: var(--text); }
+</style>
+</head>
+<body>
+
+<div class="c-dot" id="cDot"></div>
+<div class="c-ring" id="cRing"></div>
+
+<div class="wrap">
+  
+  <div class="top-nav-bar">
+    <a href="index_minimalist.html#projects" class="q-btn" style="border:none; padding-left:0; background:transparent;">← Back to Portfolio</a>
+    <div style="display:flex; gap:0.5rem;">
+      <a href="project-bellabeat.html" class="q-btn">← Prev</a>
+    </div>
+  </div>
+
+  <div class="s-block reveal">
+    <div class="s-label">01 / Overview</div>
+    <h1 class="proj-title">Student Productivity Analysis</h1>
+    <p class="impact-summary">Tracked my own study habits for 30 days to test the "more hours = better results" myth using Python. The data proved that focus quality matters far more than time spent, completely changing how I manage my schedule.</p>
+  </div>
+
+  <div class="s-block reveal d-1" style="padding-top: 1rem; border-bottom: none;">
+    <div class="s-label">02 / The Numbers</div>
+    <div class="kpi-strip">
+      <div><div class="kpi-v">30 Days</div><div class="kpi-l">Data Tracked</div></div>
+      <div><div class="kpi-v">135 hrs</div><div class="kpi-l">Total Study Time</div></div>
+      <div><div class="kpi-v" style="color: var(--accent);">76.7</div><div class="kpi-l">High-Focus Score</div></div>
+      <div><div class="kpi-v">+12 Pts</div><div class="kpi-l">Performance Gap</div></div>
+    </div>
+  </div>
+
+  <div class="s-block reveal">
+    <div class="s-label">03 / The Problem</div>
+    <div class="text-content">
+      <p>Like most students, I thought studying for 5-6 hours a day meant I was being productive. But my mock test scores were stuck around the 65-70 mark. I wanted to know if my long study hours were actually translating into better scores, or if I was simply burning myself out without making real progress.</p>
+    </div>
+  </div>
+
+  <div class="s-block reveal">
+    <div class="s-label">04 / My Approach</div>
+    <div class="text-content">
+      <p>Instead of guessing, I turned myself into a dataset. For 30 days, I logged every study session: the subject, the exact hours, and an honest self-rating of my Focus Level (High, Medium, Low). I then recorded my weekly mock test scores.</p>
+      <p>I loaded this custom dataset into <strong>Python using Pandas</strong>, cleaned the logs, and cross-tabulated focus levels against average mock scores to find the real drivers of academic performance.</p>
+    </div>
+  </div>
+
+  <div class="s-block demo-bg reveal">
+    <div class="s-label">05 / Interactive Dashboard Demo</div>
+    <div class="live-badge"><span class="pulse"></span> Active Demo — My Own Tracked Data (30 Days)</div>
+    
+    <div class="charts-grid">
+      <div class="chart-box">
+        <div class="chart-lbl">Daily Study Hours Trend</div>
+        <div id="lineChart"></div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-lbl">Focus Level vs Performance</div>
+        <div id="focusChart"></div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-lbl">Total Time by Subject</div>
+        <div id="timeChart"></div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-lbl">Average Score by Subject</div>
+        <div id="scoreChart"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="s-block reveal">
+    <div class="s-label">06 / Key Data Insights</div>
+    <div class="insights-grid">
+      <div class="insight-card">
+        <div class="insight-num">Insight 01 — Time is a Vanity Metric</div>
+        <div class="insight-text">Sessions with "High Focus" yielded an average score of 76.73, while "Low Focus" sessions dropped to 64.76. This <strong>~12-point gap</strong> existed even when the total hours logged were exactly the same. Quality completely outweighs quantity.</div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-num">Insight 02 — Burnout is Visible</div>
+        <div class="insight-text">The daily trend line showed clear volatility. Days with extreme hours (6+ hours) were almost always followed by a severe drop in study hours the next day, proving that sprinting leads to burnout, not consistency.</div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-num">Insight 03 — Effort Doesn't Guarantee Score</div>
+        <div class="insight-text">Math took the most hours (38h) and gave the highest score (79 points). However, GK took 23 hours but yielded the lowest score (62). Simply spending more time on a weak subject didn't automatically fix the performance gap.</div>
+      </div>
+    </div>
+
+    <div class="section-label" style="margin-top: 3rem;">Subject Performance Breakdown (Raw Data)</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Subject</th><th>Total Hours</th><th>Avg Score</th><th>Score Bar</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Math</td><td>38h</td><td><strong>79</strong></td><td><div class="score-bar"><div class="bar" style="width:79%"></div><span class="score-val">79</span></div></td></tr>
+          <tr><td>English</td><td>25h</td><td><strong>79</strong></td><td><div class="score-bar"><div class="bar" style="width:79%"></div><span class="score-val">79</span></div></td></tr>
+          <tr><td>Reasoning</td><td>29h</td><td><strong>73</strong></td><td><div class="score-bar"><div class="bar" style="width:73%"></div><span class="score-val">73</span></div></td></tr>
+          <tr><td>Current Affairs</td><td>20h</td><td><strong>68</strong></td><td><div class="score-bar"><div class="bar" style="width:68%"></div><span class="score-val">68</span></div></td></tr>
+          <tr><td>GK</td><td>23h</td><td><strong>62</strong></td><td><div class="score-bar"><div class="bar" style="width:62%"></div><span class="score-val">62</span></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="s-block reveal" style="border-bottom:none;">
+    <div class="impact-mega-box">
+      <div class="s-label">07 / The Outcome & Action Taken</div>
+      <div class="impact-mega-text">
+        I completely stopped obsessing over the 6-hour daily mark. I restructured my schedule around <highlight>2-hour "Deep Work" blocks</highlight> with strict breaks. By treating my focus as a finite resource, I increased my average mock scores and eliminated burnout within just two weeks.
+      </div>
+    </div>
+  </div>
+
+  <div class="s-block reveal">
+    <div class="s-label">08 / Project Links</div>
+    <div class="links-row">
+      <a href="https://github.com/Nitinredhu/student-productivity-Analysis-" target="_blank" class="ext-link primary">↗ View on GitHub</a>
+      <a href="index_minimalist.html#projects" class="ext-link">← Back to Portfolio</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+'use strict';
+
+// 1. Initialize Theme from LocalStorage First
+const savedTheme = localStorage.getItem('nr-theme') || 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+
+// 2. Cursor Animation Logic
+const cDot = document.getElementById('cDot');
+const cRing = document.getElementById('cRing');
+let mx2 = 0, my2 = 0, rx = 0, ry = 0;
+if (window.innerWidth > 900) {
+    document.addEventListener('mousemove', e => {
+        mx2 = e.clientX; my2 = e.clientY;
+        cDot.style.left = mx2 + 'px'; cDot.style.top = my2 + 'px';
+    });
+    (function trackRing() {
+        rx += (mx2 - rx) * 0.18; ry += (my2 - ry) * 0.18;
+        cRing.style.left = rx + 'px'; cRing.style.top = ry + 'px';
+        requestAnimationFrame(trackRing);
+    })();
+    document.querySelectorAll('a, button, .insight-card, .chart-box, tr').forEach(el => {
+        el.addEventListener('mouseenter', () => cRing.classList.add('expand'));
+        el.addEventListener('mouseleave', () => cRing.classList.remove('expand'));
+    });
+}
+
+// 3. Scroll Reveal Animation Logic
+const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+        }
+    });
+}, { threshold: 0.1, rootMargin: "0px 0px -40px 0px" });
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+// 4. Data derived directly from original visualization
+const monoFont = 'JetBrains Mono, monospace';
+const chartColor = '#4A90D9'; // Blue accent
+
+// Dynamic colors based on theme
+const isDark = savedTheme === 'dark';
+const tc = isDark ? '#F4F4F0' : '#111111';
+const gc = isDark ? '#2a2a2a' : '#e0e0e0';
+const muteColor = isDark ? '#A0A0A0' : '#666666';
+const chartMode = isDark ? 'dark' : 'light';
+
+// 1. Line Chart: Daily Study Hours
+const lineOptions = {
+  series: [{ name: 'Study Hours', data: [5.0, 4.5, 5.0, 4.5, 4.5, 4.5, 4.6, 2.5, 4.5, 5.5, 5.0, 4.0, 5.5, 4.0, 1.5, 6.0, 5.0, 4.5, 4.6, 2.5, 6.0, 5.0, 4.5, 4.0, 4.5, 5.0, 5.2, 2.0, 5.0, 6.0] }],
+  chart: { type: 'line', height: 220, toolbar: { show: false }, fontFamily: monoFont, background: 'transparent' },
+  theme: { mode: chartMode },
+  colors: [chartColor],
+  stroke: { curve: 'smooth', width: 3 },
+  dataLabels: { enabled: false },
+  grid: { borderColor: gc, strokeDashArray: 4 },
+  xaxis: { 
+    categories: Array.from({length: 30}, (_, i) => i + 1),
+    tickAmount: 6,
+    labels: { style: { colors: muteColor } },
+    title: { text: 'Day', style: { color: muteColor, fontWeight: 600 } }
+  },
+  yaxis: { labels: { style: { colors: muteColor } }, title: { text: 'Hours', style: { color: muteColor, fontWeight: 600 } } },
+  tooltip: { theme: chartMode }
+};
+
+// 2. Column Chart: Focus Level vs Performance
+const focusOptions = {
+  series: [{ name: 'Avg Mock Score', data: [76.73, 69.78, 64.76] }],
+  chart: { type: 'bar', height: 220, toolbar: { show: false }, fontFamily: monoFont, background: 'transparent' },
+  theme: { mode: chartMode },
+  colors: [chartColor],
+  plotOptions: { bar: { columnWidth: '60%', borderRadius: 2, dataLabels: { position: 'top' } } },
+  dataLabels: { 
+    enabled: true, 
+    formatter: function (val) { return val; },
+    offsetY: -20,
+    style: { fontSize: '10px', colors: [tc] } // Changed to match theme text
+  },
+  grid: { borderColor: gc, strokeDashArray: 4 },
+  xaxis: { categories: ['High', 'Medium', 'Low'], labels: { style: { colors: muteColor } }, title: { text: 'Focus Level', style: { color: muteColor } } },
+  yaxis: { show: false },
+  tooltip: { theme: chartMode }
+};
+
+// 3. Horizontal Bar: Study Time by Subject
+const timeOptions = {
+  series: [{ name: 'Total Hours', data: [38, 29, 25, 23, 20] }],
+  chart: { type: 'bar', height: 220, toolbar: { show: false }, fontFamily: monoFont, background: 'transparent' },
+  theme: { mode: chartMode },
+  colors: [chartColor],
+  plotOptions: { bar: { horizontal: true, barHeight: '50%', borderRadius: 2 } },
+  dataLabels: { enabled: false },
+  grid: { borderColor: gc, strokeDashArray: 4, xaxis: { lines: { show: true } }, yaxis: { lines: { show: false } } },
+  xaxis: { 
+    categories: ['Math', 'Reasoning', 'English', 'GK', 'Current Affairs'],
+    labels: { style: { colors: muteColor } },
+    title: { text: 'Total Study Hours', style: { color: muteColor } } 
+  },
+  yaxis: { labels: { style: { colors: tc } } },
+  tooltip: { theme: chartMode }
+};
+
+// 4. Horizontal Bar: Avg Score by Subject
+const scoreOptions = {
+  series: [{ name: 'Avg Score', data: [79, 79, 73, 68, 62] }],
+  chart: { type: 'bar', height: 220, toolbar: { show: false }, fontFamily: monoFont, background: 'transparent' },
+  theme: { mode: chartMode },
+  colors: [chartColor],
+  plotOptions: { bar: { horizontal: true, barHeight: '50%', borderRadius: 2, dataLabels: { position: 'right' } } },
+  dataLabels: { 
+    enabled: true, 
+    textAnchor: 'start',
+    style: { colors: [tc], fontSize: '10px' }, // Match theme
+    offsetX: 5
+  },
+  grid: { borderColor: gc, strokeDashArray: 4, xaxis: { lines: { show: true } }, yaxis: { lines: { show: false } } },
+  xaxis: { 
+    categories: ['Math', 'English', 'Reasoning', 'Current Affairs', 'GK'],
+    labels: { style: { colors: muteColor } },
+    title: { text: 'Average Score', style: { color: muteColor } },
+    max: 100 
+  },
+  yaxis: { labels: { style: { colors: tc } } },
+  tooltip: { theme: chartMode }
+};
+
+// Render all charts
+new ApexCharts(document.querySelector("#lineChart"), lineOptions).render();
+new ApexCharts(document.querySelector("#focusChart"), focusOptions).render();
+new ApexCharts(document.querySelector("#timeChart"), timeOptions).render();
+new ApexCharts(document.querySelector("#scoreChart"), scoreOptions).render();
+</script>
+
+</body>
+</html>

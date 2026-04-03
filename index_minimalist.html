@@ -1,0 +1,1505 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8CMVWM5299"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-8CMVWM5299');
+  </script>
+  <title>Nitish Redhu | Data Analytics Portfolio</title>
+  <meta name="description"
+    content="Nitish Redhu is a Data Analytics student specializing in SQL, Power BI, R, and Python." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --bg-page: #EAE9E4;
+      --bg-main: #F8F7F4;
+      --bg-glass: rgba(248, 247, 244, 0.82);
+      --text-main: #111111;
+      --text-mute: #555555;
+      --border: #111111;
+      --border-dim: #dddddd;
+      --highlight: rgba(17, 17, 17, 0.05);
+      --ff-head: 'Bricolage Grotesque', sans-serif;
+      --ff-body: 'Inter', sans-serif;
+      --ff-mono: 'JetBrains Mono', monospace;
+      --ease: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    :root[data-theme="dark"] {
+      --bg-page: #0A0A0A;
+      --bg-main: #121212;
+      --bg-glass: rgba(18, 18, 18, 0.82);
+      --text-main: #F4F4F0;
+      --text-mute: #A0A0A0;
+      --border: #444444;
+      --border-dim: #2a2a2a;
+      --highlight: rgba(244, 244, 240, 0.08);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: var(--ff-body);
+      background: var(--bg-page);
+      color: var(--text-main);
+      padding: 2rem;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      transition: background 0.6s var(--ease), color 0.6s var(--ease);
+      cursor: none;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 9998;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity: 0.035;
+      mix-blend-mode: overlay;
+    }
+
+    a,
+    button {
+      color: inherit;
+      text-decoration: none;
+      cursor: none;
+      border: none;
+      background: none;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    /* Cursor Optimized with Will-Change and Top/Left base values */
+    .c-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--text-main);
+      border-radius: 50%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 100000;
+      transform: translate(-50%, -50%);
+      transition: background 0.3s;
+      will-change: transform;
+    }
+
+    .c-ring {
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--text-mute);
+      border-radius: 50%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s var(--ease), height 0.3s var(--ease), border-color 0.3s, background 0.3s;
+      will-change: transform;
+    }
+
+    .c-ring.expand {
+      width: 60px;
+      height: 60px;
+      border-color: transparent;
+      background: var(--highlight);
+      backdrop-filter: blur(4px);
+    }
+
+    @media(max-width:900px) {
+
+      body,
+      a,
+      button {
+        cursor: auto;
+      }
+
+      .c-dot,
+      .c-ring {
+        display: none;
+      }
+    }
+
+    /* Scroll Progress */
+    #scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2px;
+      background: var(--text-main);
+      width: 0%;
+      z-index: 99999;
+      transition: width 0.1s linear;
+    }
+
+    /* Reveal Animations */
+    .reveal {
+      opacity: 0;
+      transform: translateY(45px);
+      transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+      will-change: opacity, transform;
+    }
+
+    .reveal.from-left {
+      transform: translateX(-45px);
+    }
+
+    .reveal.from-right {
+      transform: translateX(45px);
+    }
+
+    .reveal.scale-up {
+      transform: scale(0.93);
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0) translateX(0) scale(1);
+    }
+
+    .d-1 {
+      transition-delay: 0.1s;
+    }
+
+    .d-2 {
+      transition-delay: 0.22s;
+    }
+
+    .d-3 {
+      transition-delay: 0.34s;
+    }
+
+    .d-4 {
+      transition-delay: 0.46s;
+    }
+
+    .d-5 {
+      transition-delay: 0.58s;
+    }
+
+    /* Buttons */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: var(--text-main);
+      color: var(--bg-main);
+      padding: 0.85rem 1.9rem;
+      border-radius: 5px;
+      font-family: var(--ff-mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      cursor: none;
+      transition: transform 0.2s var(--ease), box-shadow 0.2s;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+    }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 0.85rem 1.9rem;
+      border-radius: 5px;
+      font-family: var(--ff-mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      cursor: none;
+      transition: background 0.2s, transform 0.2s var(--ease);
+    }
+
+    .btn-outline:hover {
+      background: var(--highlight);
+      transform: translateY(-3px);
+    }
+
+    /* Window */
+    .window-frame {
+      width: 96vw;
+      max-width: 1500px;
+      background: var(--bg-main);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.08);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: background 0.6s var(--ease), border-color 0.6s var(--ease);
+    }
+
+    /* Nav */
+    .window-header {
+      height: 55px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      background: var(--bg-glass);
+      backdrop-filter: blur(16px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .dots {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+    }
+
+    .dot:nth-child(3) {
+      background: var(--border);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      font-family: var(--ff-mono);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .nav-links a.reg {
+      position: relative;
+      padding-bottom: 4px;
+      color: var(--text-mute);
+      transition: color 0.3s;
+    }
+
+    .nav-links a.reg:hover {
+      color: var(--text-main);
+    }
+
+    .nav-links a.reg::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0%;
+      height: 1px;
+      background: var(--text-main);
+      transition: width 0.3s var(--ease);
+    }
+
+    .nav-links a.reg:hover::after {
+      width: 100%;
+    }
+
+    .nav-resume {
+      border: 1px solid var(--border);
+      padding: 0.4rem 1rem;
+      border-radius: 4px;
+      transition: background 0.2s, transform 0.1s;
+      display: inline-block;
+      font-family: var(--ff-mono);
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .nav-resume:hover {
+      background: var(--text-main);
+      color: var(--bg-main);
+      transform: translateY(-1px);
+    }
+
+    /* Hero */
+    .hero-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 88vh;
+      position: relative;
+    }
+
+    .hero-left {
+      padding: 5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-right: 1px solid var(--border);
+      position: relative;
+      z-index: 10;
+    }
+
+    .hero-right {
+      position: relative;
+      overflow: hidden;
+      background: var(--bg-page);
+    }
+
+    #three-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      outline: none;
+    }
+
+    .branding {
+      font-family: var(--ff-head);
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      margin-bottom: 3rem;
+    }
+
+    .date-stamp {
+      font-family: var(--ff-mono);
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 1.5rem;
+      color: var(--text-mute);
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      background: #22c55e;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #22c55e;
+      animation: blink 2s infinite;
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.35;
+      }
+    }
+
+    .big-title {
+      font-family: var(--ff-head);
+      font-size: clamp(3rem, 5vw, 5rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+      color: var(--text-main);
+    }
+
+    .sub-title {
+      font-size: 1.15rem;
+      color: var(--text-mute);
+      max-width: 580px;
+      line-height: 1.65;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 3.5rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-chips {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: 1px solid var(--border-dim);
+      padding: 0.45rem 0.9rem;
+      border-radius: 100px;
+      font-family: var(--ff-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      background: var(--bg-page);
+      color: var(--text-mute);
+      text-transform: uppercase;
+    }
+
+    .theme-magnet-wrapper {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 120px;
+      height: 120px;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .theme-toggle-btn {
+      width: 75px;
+      height: 75px;
+      border-radius: 50%;
+      background: var(--text-main);
+      color: var(--bg-main);
+      border: 4px solid var(--bg-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      transition: transform 0.2s ease-out, box-shadow 0.3s;
+      pointer-events: none;
+      cursor: none;
+    }
+
+    /* Sections */
+    .section {
+      padding: 7rem 5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .sec-title {
+      font-family: var(--ff-head);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      margin-bottom: 3.5rem;
+      letter-spacing: -0.03em;
+    }
+
+    .sec-eyebrow {
+      font-family: var(--ff-mono);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-mute);
+      margin-bottom: 0.8rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .sec-eyebrow::before {
+      content: '';
+      width: 20px;
+      height: 1px;
+      background: var(--text-mute);
+    }
+
+    /* Tools */
+    .tools-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-top: 2rem;
+    }
+
+    .tool-tag {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: 1px solid var(--border-dim);
+      padding: 0.55rem 1.1rem;
+      border-radius: 5px;
+      font-family: var(--ff-mono);
+      font-size: 0.8rem;
+      font-weight: 600;
+      background: var(--highlight);
+      transition: transform 0.25s var(--ease), background 0.25s, border-color 0.25s, box-shadow 0.25s;
+    }
+
+    .tool-tag:hover {
+      background: var(--text-main);
+      color: var(--bg-main);
+      border-color: var(--text-main);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Cards */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+    }
+
+    @media(max-width:768px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-page);
+      border-radius: 8px;
+      transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease), background 0.35s, border-color 0.35s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--text-main);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s var(--ease);
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      background: var(--bg-main);
+      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.1);
+      border-color: var(--text-main);
+    }
+
+    .card:hover::after {
+      transform: scaleX(1);
+    }
+
+    .card-num {
+      font-family: var(--ff-mono);
+      font-size: 0.73rem;
+      margin-bottom: 1rem;
+      color: var(--text-mute);
+      text-transform: uppercase;
+      font-weight: 700;
+      display: block;
+    }
+
+    .card-title {
+      font-family: var(--ff-head);
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .pill-wrap {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+
+    .pill {
+      font-family: var(--ff-mono);
+      font-size: 0.65rem;
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.8rem;
+      border-radius: 100px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .pari-box {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .pari-row {
+      display: grid;
+      grid-template-columns: 70px 1fr;
+      gap: 0.5rem;
+      align-items: baseline;
+    }
+
+    .pari-lbl {
+      font-family: var(--ff-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      color: var(--text-mute);
+      font-weight: 700;
+    }
+
+    /* Contact */
+    .contact-section {
+      padding: 8rem 2rem;
+      text-align: center;
+      border-top: 1px solid var(--border-dim);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      background: var(--bg-page);
+    }
+
+    .contact-eyebrow {
+      font-family: var(--ff-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .contact-eyebrow::before,
+    .contact-eyebrow::after {
+      content: '';
+      width: 30px;
+      height: 1px;
+      background: var(--text-mute);
+      opacity: 0.5;
+    }
+
+    .contact-title {
+      font-family: var(--ff-head);
+      font-size: clamp(3.5rem, 7vw, 6.5rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-subtitle {
+      font-size: 1.1rem;
+      color: var(--text-mute);
+      max-width: 620px;
+      line-height: 1.65;
+      margin: 0 auto 3.5rem auto;
+    }
+
+    .contact-glass-box {
+      background: var(--bg-main);
+      border: 1px solid var(--border-dim);
+      border-radius: 16px;
+      padding: 3.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.04);
+      max-width: 850px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .plain-email {
+      flex-basis: 100%;
+      text-align: center;
+      font-family: var(--ff-mono);
+      font-size: 1rem;
+      color: var(--text-main);
+      margin-bottom: 1rem;
+      transition: opacity 0.2s;
+    }
+
+    .plain-email:hover {
+      opacity: 0.6;
+    }
+
+    .soc-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      background: var(--bg-page);
+      border: 1px solid var(--border-dim);
+      padding: 1rem 1.8rem;
+      border-radius: 8px;
+      font-family: var(--ff-mono);
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: transform 0.2s var(--ease), box-shadow 0.2s, border-color 0.2s;
+    }
+
+    .soc-btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.07);
+      border-color: var(--text-main);
+    }
+
+    .soc-btn i {
+      font-size: 1.2rem;
+    }
+
+    .footer-minimal {
+      padding: 2.5rem;
+      border-top: 1px solid var(--border-dim);
+      text-align: center;
+      font-family: var(--ff-mono);
+      font-size: 0.73rem;
+      color: var(--text-mute);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: var(--bg-main);
+    }
+
+    /* Modal */
+    .resume-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 99990;
+      background: var(--bg-glass);
+      backdrop-filter: blur(8px);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 4rem 2rem;
+      overflow-y: auto;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s var(--ease);
+    }
+
+    .resume-modal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .resume-content {
+      background: var(--bg-main);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      width: 100%;
+      max-width: 850px;
+      padding: 4rem;
+      position: relative;
+      transform: translateY(30px);
+      transition: transform 0.4s var(--ease), background 0.6s var(--ease);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
+    }
+
+    .resume-modal.active .resume-content {
+      transform: translateY(0);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: var(--highlight);
+      border: 1px solid var(--border-dim);
+      color: var(--text-main);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-family: var(--ff-mono);
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: transform 0.25s, background 0.2s;
+    }
+
+    .close-btn:hover {
+      transform: rotate(90deg);
+      background: var(--text-main);
+      color: var(--bg-main);
+    }
+
+    .res-header {
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+
+    .res-name {
+      font-family: var(--ff-head);
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.5rem;
+    }
+
+    .res-contact {
+      font-family: var(--ff-mono);
+      font-size: 0.8rem;
+      color: var(--text-mute);
+    }
+
+    .res-section {
+      margin-bottom: 2.5rem;
+    }
+
+    .res-title {
+      font-family: var(--ff-mono);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      border-bottom: 1px solid var(--border-dim);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.05em;
+    }
+
+    .res-text {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin-bottom: 0.8rem;
+      color: var(--text-mute);
+    }
+
+    .res-item {
+      margin-bottom: 2rem;
+    }
+
+    .res-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.8rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .res-item-title {
+      font-family: var(--ff-head);
+      font-size: 1.35rem;
+      font-weight: 700;
+    }
+
+    .res-item-tools {
+      font-family: var(--ff-mono);
+      font-size: 0.7rem;
+      background: var(--highlight);
+      padding: 0.3rem 0.8rem;
+      border-radius: 100px;
+      font-weight: 600;
+    }
+
+    .res-list {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .res-list li {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--text-mute);
+      margin-bottom: 0.6rem;
+      position: relative;
+      padding-left: 1.2rem;
+    }
+
+    .res-list li::before {
+      content: "▹";
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-family: var(--ff-mono);
+    }
+
+    /* Responsive */
+    @media(max-width:1100px) {
+      .hero-split {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-left {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding: 4rem;
+      }
+
+      .hero-right {
+        height: 400px;
+      }
+
+      .theme-magnet-wrapper {
+        top: auto;
+        left: 50%;
+        bottom: 400px;
+        transform: translate(-50%, 50%);
+      }
+    }
+
+    @media(max-width:768px) {
+      body {
+        padding: 1rem;
+      }
+
+      .window-header {
+        padding: 0 1.5rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero-left,
+      .section {
+        padding: 4rem 1.5rem;
+      }
+
+      .big-title {
+        font-size: 2.8rem;
+      }
+
+      .pari-row {
+        grid-template-columns: 1fr;
+        gap: 0.2rem;
+      }
+
+      .contact-glass-box {
+        padding: 2rem;
+      }
+
+      .resume-content {
+        padding: 2.5rem 1.5rem;
+      }
+
+      .res-name {
+        font-size: 2.2rem;
+      }
+    }
+
+   /* --- Data Bar Transition Preloader Styles --- */
+#data-preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* Staggered Bar Background */
+.data-bars {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+.bar {
+  flex: 1;
+  height: 100%;
+  background: var(--bg-page); /* Theme ke background color se match karega */
+  border-right: 1px solid var(--highlight); /* Halki si grid line data feel ke liye */
+  transform-origin: top;
+  /* Smooth sliding animation */
+  transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.bar:last-child {
+  border-right: none;
+}
+
+/* Delay for the staggered "Bar Chart" effect */
+.bar:nth-child(1) { transition-delay: 0.0s; }
+.bar:nth-child(2) { transition-delay: 0.1s; }
+.bar:nth-child(3) { transition-delay: 0.2s; }
+.bar:nth-child(4) { transition-delay: 0.3s; }
+.bar:nth-child(5) { transition-delay: 0.4s; }
+
+/* Text Content Styling */
+.loader-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  transition: opacity 0.4s ease;
+}
+
+.loading-text {
+  font-family: var(--ff-head);
+  font-size: 4.5rem;
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: -0.03em;
+}
+
+.loading-label {
+  font-family: var(--ff-mono);
+  font-size: 0.8rem;
+  color: var(--text-mute);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+
+/* --- The Reveal Animation --- */
+/* 1. Text gayab hoga */
+body.loaded .loader-content {
+  opacity: 0; 
+}
+
+/* 2. Bars upar jayenge */
+body.loaded .bar {
+  transform: scaleY(0); 
+}
+
+/* 3. Main Website halki si zoom-in se focus me aayegi */
+.window-frame {
+  opacity: 0;
+  transform: translateY(30px) scale(0.98);
+  transition: opacity 1.2s ease 0.5s, transform 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.5s;
+}
+
+body.loaded .window-frame {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Highlighted Contact Link */
+.nav-links a.nav-highlight {
+  border: 1px solid var(--border);
+  padding: 0.4rem 1.2rem;
+  border-radius: 4px;
+  background: var(--text-main);
+  color: var(--bg-main);
+  transition: all 0.3s var(--ease);
+  display: inline-block;
+}
+
+.nav-links a.nav-highlight:hover {
+  background: transparent;
+  color: var(--text-main);
+  transform: translateY(-2px);
+}
+
+  </style>
+</head>
+
+<body>
+
+ <div id="data-preloader">
+  <div class="data-bars">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+  </div>
+
+  <div class="loader-content">
+    <div class="loading-text" id="loadText">0%</div>
+    <div class="loading-label">PROCESSING DATA</div>
+  </div>
+</div>
+
+  <div id="scroll-progress"></div>
+  <div class="c-dot" id="cDot"></div>
+  <div class="c-ring" id="cRing"></div>
+
+  <div class="window-frame">
+    <div class="window-header">
+      <div class="dots">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div class="nav-links">
+        <a href="about.html" class="reg">About</a>
+        <a href="#projects" class="reg">Projects</a>
+        <a href="#contact" class="nav-highlight">Contact</a>
+      </div>
+    </div>
+
+    <div class="hero-split">
+      <div class="hero-left">
+        <div class="branding reveal">Hi, I'm Nitish 👋</div>
+        <div class="date-stamp reveal d-1">
+          <div class="pulse-dot"></div> Data Analytics Student · Haryana, India
+        </div>
+        <h1 class="big-title reveal d-1">Turning messy data<br>into clear stories.</h1>
+        <p class="sub-title reveal d-2">I am currently learning by working on real datasets - cleaning
+          messy data, analyzing patterns, and building dashboards to
+          answer practical questions.</p>
+        <div class="hero-actions reveal d-2">
+          <a href="#projects" class="btn-primary magnetic-btn">View Projects</a>
+          <a href="about.html" class="btn-outline magnetic-btn">More About Me →</a>
+        </div>
+      </div>
+      <div class="hero-right" id="canvas-container">
+        <canvas id="three-canvas"></canvas>
+      </div>
+      <div class="theme-magnet-wrapper" id="themeMagnet">
+        <button class="theme-toggle-btn" id="themeToggle" title="Toggle Mode">◐</button>
+      </div>
+    </div>
+
+    <div class="section" id="about">
+      <div class="sec-eyebrow reveal">My Stack</div>
+      <div class="reveal d-1">
+        <h2 class="sec-title">The Tools I Use.</h2>
+        <p style="color:var(--text-mute);max-width:620px;margin-bottom:2rem;line-height:1.7;">Honestly, there's always a
+          new tool in the market. But these are my daily
+          drivers - the exact stack I use to scrape through messy data, run queries, and
+          build dashboards that actually make sense.</p>
+        <div class="tools-grid">
+          <div class="tool-tag reveal d-1"><i class="fa-solid fa-database"></i> PostgreSQL / SQL</div>
+          <div class="tool-tag reveal d-2"><i class="fa-solid fa-chart-pie"></i> Power BI & DAX</div>
+          <div class="tool-tag reveal d-3"><i class="fa-solid fa-square-poll-vertical"></i> R & ggplot2</div>
+          <div class="tool-tag reveal d-4"><i class="fa-brands fa-python"></i> Python </div>
+          <div class="tool-tag reveal d-5"><i class="fa-solid fa-table"></i> Excel</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" id="projects">
+      <div class="sec-eyebrow reveal">Real Work</div>
+      <h2 class="sec-title reveal d-1">Projects.</h2>
+      <div class="grid-2">
+        <div class="card reveal d-1">
+          <span class="card-num">01 — CRM Analytics</span>
+          <h3 class="card-title">Telco Customer Churn Reduction</h3>
+          <div class="pill-wrap"><span class="pill">PostgreSQL</span><span class="pill">Power BI</span></div>
+          <div class="pari-box">
+            <div class="pari-row"><span class="pari-lbl">Problem</span><span>26.54% customer churn rate causing ₹139K in
+                annual revenue loss.</span></div>
+            <div class="pari-row"><span class="pari-lbl">Action</span><span>Used SQL to group customers based on
+                contract type and how long they stayed.</span></div>
+            <div class="pari-row"><span class="pari-lbl">Result</span><span>Found that month-to-month contracts in the
+                first 6 months are the highest risk.</span></div>
+          </div>
+          <a href="project-churn.html" class="btn-outline"
+            style="width:fit-content;padding:0.6rem 1.2rem;font-size:0.7rem;">View Details ↗</a>
+        </div>
+        <div class="card reveal d-2">
+          <span class="card-num">02 — Sales Analytics</span>
+          <h3 class="card-title">E-Commerce Revenue Drivers</h3>
+          <div class="pill-wrap"><span class="pill">SQL</span><span class="pill">Data Visualization</span></div>
+          <div class="pari-box">
+            <div class="pari-row"><span class="pari-lbl">Problem</span><span>Needed to understand which product
+                categories drove the most sales out of 95K orders.</span></div>
+            <div class="pari-row"><span class="pari-lbl">Action</span><span>Cleaned historical data via SQL and built an
+                interactive dashboard to track revenue trends.</span></div>
+            <div class="pari-row"><span class="pari-lbl">Result</span><span>Discovered the top 3 product categories
+                drive 68% of total volume.</span></div>
+          </div>
+          <a href="project-ecommerce.html" class="btn-outline"
+            style="width:fit-content;padding:0.6rem 1.2rem;font-size:0.7rem;">View Details ↗</a>
+        </div>
+        <div class="card reveal d-3">
+          <span class="card-num">03 — Strategy Capstone</span>
+          <h3 class="card-title">Bellabeat Marketing Strategy</h3>
+          <div class="pill-wrap"><span class="pill">R Language</span><span class="pill">Statistical Analysis</span>
+          </div>
+          <div class="pari-box">
+            <div class="pari-row"><span class="pari-lbl">Problem</span><span>A smart wellness company needed data-backed
+                ideas to improve their marketing strategy.</span></div>
+            <div class="pari-row"><span class="pari-lbl">Action</span><span>Analyzed 33 users' daily habits using R to
+                find correlations between activity and sleep.</span></div>
+            <div class="pari-row"><span class="pari-lbl">Result</span><span>Found that more steps didn't strongly relate
+                to better sleep in this dataset.</span></div>
+          </div>
+          <a href="project-bellabeat.html" class="btn-outline"
+            style="width:fit-content;padding:0.6rem 1.2rem;font-size:0.7rem;">View Details ↗</a>
+        </div>
+        <div class="card reveal d-4">
+          <span class="card-num">04 — Academic Analytics</span>
+          <h3 class="card-title">Student Productivity Analysis</h3>
+          <div class="pill-wrap"><span class="pill">Python</span><span class="pill">Excel</span></div>
+          <div class="pari-box">
+            <div class="pari-row"><span class="pari-lbl">Problem</span><span>Assumption that "more hours = better
+                results" wasn't yielding improvements.</span></div>
+            <div class="pari-row"><span class="pari-lbl">Action</span><span>Tracked 30-day study logs across 5 subjects
+                to measure effort vs return.</span></div>
+            <div class="pari-row"><span class="pari-lbl">Result</span><span>High-focus sessions scored avg 76.73 vs
+                Low-focus 64.76 regardless of time.</span></div>
+          </div>
+          <a href="project-productivity.html" class="btn-outline"
+            style="width:fit-content;padding:0.6rem 1.2rem;font-size:0.7rem;">View Details ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-section" id="contact">
+      <div class="reveal">
+        <div class="contact-eyebrow">Contact</div>
+        <h2 class="contact-title">Let's build<br>something together.</h2>
+        <p class="contact-subtitle">Open to collaborations, entry-level data analyst roles, and interesting
+          conversations about data.
+          Reach out on any platform below.</p>
+      </div>
+      <div class="contact-glass-box reveal d-1">
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=nitinredhu97@gmail.com" target="_blank" class="plain-email"><span>Email me:</span> nitinredhu97@gmail.com</a>
+        <a href="https://www.linkedin.com/in/nitish-redhu/" target="_blank" class="soc-btn"><i
+            class="fa-brands fa-linkedin"></i> LinkedIn</a>
+      </div>
+    </div>
+
+    <div class="footer-minimal">Designed & built by Nitish Redhu · Data Analyst Student · Haryana, India · 2026</div>
+
+    <div class="resume-modal" id="resumeModal">
+      <div class="resume-content">
+        <button class="close-btn" id="closeResumeBtn">✕</button>
+        <div class="res-header">
+          <h2 class="res-name">Nitish Redhu</h2>
+          <p class="res-contact">nitinredhu97@gmail.com · Haryana · LinkedIn · GitHub</p>
+        </div>
+        <div class="res-section">
+          <div class="res-title">About Me</div>
+          <p class="res-text">Data Analytics Student with hands-on experience in SQL (PostgreSQL), Excel, and Power BI.
+            Seeking Data Analyst roles where I can learn and apply data-driven problem solving.</p>
+        </div>
+        <div class="res-section">
+          <div class="res-title">Education</div>
+          <div class="res-item">
+            <div class="res-item-header"><span class="res-item-title">B.Tech — Information Technology</span><span
+                class="res-item-tools">2022 — 2026</span></div>
+            <p class="res-text">JMIT, Radaur</p>
+          </div>
+        </div>
+        <div class="res-section">
+          <div class="res-title">Projects</div>
+          <div class="res-item">
+            <div class="res-item-header"><span class="res-item-title">Telco Customer Churn Reduction</span><span
+                class="res-item-tools">PostgreSQL · Power BI</span></div>
+            <ul class="res-list">
+              <li>Identified 26.54% churn causing ₹139K annual revenue loss</li>
+              <li>Month-to-month contracts in first 6 months = highest risk group</li>
+            </ul>
+          </div>
+          <div class="res-item">
+            <div class="res-item-header"><span class="res-item-title">E-Commerce Revenue Drivers</span><span
+                class="res-item-tools">SQL · Data Viz</span></div>
+            <ul class="res-list">
+              <li>Top 3 categories drive 68% of total order volume from 95K orders</li>
+            </ul>
+          </div>
+          <div class="res-item">
+            <div class="res-item-header"><span class="res-item-title">Bellabeat Marketing Strategy</span><span
+                class="res-item-tools">R · Statistics</span></div>
+            <ul class="res-list">
+              <li>Found step count doesn't correlate strongly with sleep quality</li>
+            </ul>
+          </div>
+          <div class="res-item">
+            <div class="res-item-header"><span class="res-item-title">Student Productivity Analysis</span><span
+                class="res-item-tools">Python · Excel</span></div>
+            <ul class="res-list">
+              <li>High focus sessions scored avg 76.73 vs Low focus 64.76 — time wasn't the factor</li>
+            </ul>
+          </div>
+        </div>
+        <div class="res-section">
+          <div class="res-title">Certifications</div>
+          <p class="res-text">Google Data Analytics Certificate · Associate Data Analyst in SQL (DataCamp) · Data
+            Analyst in Power BI (DataCamp) · Prompt Engineering for AI (NSDC)</p>
+        </div>
+        <div class="res-section">
+          <div class="res-title">Skills</div>
+          <p class="res-text"><strong>Technical:</strong> SQL (PostgreSQL, MySQL), Power BI, Microsoft Excel, Python, R
+            Language, Google Sheets</p>
+          <p class="res-text"><strong>Analytical:</strong> Data Cleaning, Validation, Visualization, Dashboard
+            Reporting, Data Storytelling</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    'use strict';
+
+    // Scroll progress
+    const progressBar = document.getElementById('scroll-progress');
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY;
+      const total = document.body.scrollHeight - window.innerHeight;
+      progressBar.style.width = (scrolled / total * 100) + '%';
+    }, { passive: true });
+
+    // Cursor Optimized using Translate3D
+    const cDot = document.getElementById('cDot');
+    const cRing = document.getElementById('cRing');
+    let mx2 = 0, my2 = 0, rx = 0, ry = 0;
+    if (window.innerWidth > 900 && cDot && cRing) {
+      document.addEventListener('mousemove', e => {
+        mx2 = e.clientX;
+        my2 = e.clientY;
+        cDot.style.transform = `translate3d(calc(${mx2}px - 50%), calc(${my2}px - 50%), 0)`;
+      });
+
+      (function trackRing() {
+        rx += (mx2 - rx) * 0.18;
+        ry += (my2 - ry) * 0.18;
+        cRing.style.transform = `translate3d(calc(${rx}px - 50%), calc(${ry}px - 50%), 0)`;
+        requestAnimationFrame(trackRing);
+      })();
+
+      document.querySelectorAll('a,button,.card,.soc-btn,.tool-tag,.magnetic-btn').forEach(el => {
+        el.addEventListener('mouseenter', () => cRing.classList.add('expand'));
+        el.addEventListener('mouseleave', () => cRing.classList.remove('expand'));
+      });
+    }
+
+    // Scroll reveal
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+    // Magnetic
+    if (window.innerWidth > 900) {
+      document.querySelectorAll('.magnetic-btn').forEach(btn => {
+        btn.addEventListener('mousemove', e => {
+          const r = btn.getBoundingClientRect();
+          btn.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * 0.25}px,${(e.clientY - r.top - r.height / 2) * 0.25}px)`;
+        });
+        btn.addEventListener('mouseleave', () => btn.style.transform = '');
+      });
+    }
+
+    // Theme
+    const magnetWrapper = document.getElementById('themeMagnet');
+    const themeBtn = document.getElementById('themeToggle');
+    const savedTheme = localStorage.getItem('nr-theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    if (magnetWrapper && themeBtn) {
+      if (window.innerWidth > 900) {
+        magnetWrapper.addEventListener('mousemove', e => {
+          const r = magnetWrapper.getBoundingClientRect();
+          themeBtn.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * 0.4}px,${(e.clientY - r.top - r.height / 2) * 0.4}px)`;
+        });
+        magnetWrapper.addEventListener('mouseleave', () => themeBtn.style.transform = '');
+      }
+      magnetWrapper.addEventListener('click', () => {
+        const cur = document.documentElement.getAttribute('data-theme');
+        const nxt = cur === 'light' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', nxt);
+        localStorage.setItem('nr-theme', nxt);
+        if (window.update3DTheme) window.update3DTheme(nxt);
+      });
+    }
+
+    // Three.js
+    window.addEventListener('load', () => {
+      if (typeof THREE === 'undefined') return;
+      const container = document.getElementById('canvas-container');
+      const canvas = document.getElementById('three-canvas');
+      if (!container || !canvas) return;
+      const R = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+      R.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 1, 1000);
+      camera.position.z = window.innerWidth > 900 ? 300 : 250;
+      const geo = new THREE.IcosahedronGeometry(90, 2);
+      let nodeColor = document.documentElement.getAttribute('data-theme') === 'dark' ? 0xF4F4F0 : 0x111111;
+      const pMat = new THREE.PointsMaterial({ color: nodeColor, size: 3.5 });
+      const lMat = new THREE.LineBasicMaterial({ color: nodeColor, transparent: true, opacity: 0.22 });
+      const pts = new THREE.Points(geo, pMat);
+      const lines = new THREE.LineSegments(new THREE.EdgesGeometry(geo), lMat);
+      const group = new THREE.Group();
+      group.add(pts); group.add(lines); scene.add(group);
+      window.update3DTheme = (t) => { const c = t === 'dark' ? 0xF4F4F0 : 0x111111; pMat.color.setHex(c); lMat.color.setHex(c); };
+      let mx = 0, my = 0;
+      document.addEventListener('mousemove', e => { mx = e.clientX - window.innerWidth / 2; my = e.clientY - window.innerHeight / 2; });
+      window.addEventListener('resize', () => { camera.aspect = container.clientWidth / container.clientHeight; camera.updateProjectionMatrix(); R.setSize(container.clientWidth, container.clientHeight); });
+      R.setSize(container.clientWidth, container.clientHeight);
+      (function anim() {
+        requestAnimationFrame(anim);
+        group.rotation.y += 0.0015; group.rotation.x += 0.0008;
+        const s = 1 + Math.sin(Date.now() * 0.002) * 0.055; group.scale.set(s, s, s);
+        camera.position.x += (mx * 0.2 - camera.position.x) * 0.025;
+        camera.position.y += (-my * 0.2 - camera.position.y) * 0.025;
+        camera.lookAt(scene.position); R.render(scene, camera);
+      })();
+    });
+
+    // Resume modal
+    const navViewResume = document.getElementById('navViewResume');
+    const resumeModal = document.getElementById('resumeModal');
+    const closeResumeBtn = document.getElementById('closeResumeBtn');
+    function openResume(e) { if (e) e.preventDefault(); if (resumeModal) { resumeModal.classList.add('active'); document.body.style.overflow = 'hidden'; } }
+    function closeResume() { if (resumeModal) { resumeModal.classList.remove('active'); document.body.style.overflow = ''; } }
+    if (navViewResume) navViewResume.addEventListener('click', openResume);
+    if (closeResumeBtn) closeResumeBtn.addEventListener('click', closeResume);
+    if (resumeModal) resumeModal.addEventListener('click', e => { if (e.target === resumeModal) closeResume(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeResume(); });
+
+   // --- Data Bar Transition Logic ---
+window.addEventListener('load', () => {
+  const loadText = document.getElementById('loadText');
+  let progress = 0;
+
+  // Percentage badhane ka function
+  const interval = setInterval(() => {
+    // Random numbers se progress badhegi (like real loading)
+    progress += Math.floor(Math.random() * 15) + 5; 
+    
+    if(progress >= 100) {
+      progress = 100;
+      loadText.innerText = progress + '%';
+      clearInterval(interval);
+
+      // 100% hone ke theek baad 'loaded' class add kar dein
+      setTimeout(() => {
+        document.body.classList.add('loaded');
+      }, 300); // 100% par thoda sa pause
+      
+    } else {
+      loadText.innerText = progress + '%';
+    }
+  }, 100); // Har 0.1s me text update hoga
+});
+  </script>
+</body>
+
+</html>
