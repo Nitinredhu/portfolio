@@ -3,7 +3,8 @@
   <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>E-Commerce Revenue Drivers — Nitish Redhu</title>
+  <link rel="icon" type="image/jpeg" href="logo.jpg">
+  <title>Brazilian E-Commerce Revenue Drivers — Nitish Redhu</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.45.2/dist/apexcharts.min.js"></script>
@@ -170,6 +171,65 @@
     opacity: 1;
     transform: translateY(0);
   }
+  @media (max-width: 768px) {
+    /* 1. YAHAN BOUNDARY FIX HOGI: Body aur Wrap ko screen ke andar set kiya */
+    body {
+        padding: 1rem !important; /* Mobile ke liye padding choti kardi */
+    }
+    .wrap {
+        width: 100% !important; /* Box ko screen ke hisaab se fit kiya */
+        box-sizing: border-box !important;
+    }
+
+    /* 2. Header Navigation Spacing */
+    .top-nav-bar {
+        padding: 1.5rem 1.2rem !important;
+        align-items: center !important;
+        text-align: center;
+    }
+    .top-nav-bar > div {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    /* 3. Block Padding */
+    .s-block {
+        padding: 2.5rem 1.5rem !important; 
+    }
+
+    /* 4. Dot & Label Fix */
+    .s-label {
+        display: flex !important;
+        align-items: center !important;
+        gap: 0.6rem !important; 
+        padding-left: 0 !important; 
+        margin-left: 0 !important;
+    }
+
+    .s-label::before {
+        position: static !important; 
+        transform: none !important;
+        flex-shrink: 0 !important; 
+    }
+
+    /* 5. Title & Text adjustments */
+    .proj-title {
+        font-size: 2.2rem !important;
+        line-height: 1.2 !important;
+        margin-bottom: 1.2rem !important;
+    }
+
+    .impact-summary {
+        font-size: 1.05rem !important;
+    }
+
+    /* 6. KPI Cards */
+    .kpi-strip {
+        padding: 1.5rem !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 1.5rem 1rem !important;
+    }
+}
   </style>
   </head>
   <body>
