@@ -1100,6 +1100,31 @@
       letter-spacing: 0.2em;
     }
 
+    /* --- Smooth Progress Bar Styles --- */
+    .progress-container {
+      width: 220px;
+      height: 3px;
+      /* Patli aur sleek line */
+      background: var(--border-dim);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: var(--text-main);
+      /* Yahi property isko ekdum smooth banati hai */
+      transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    /* Jab loading khatam ho, toh thoda upar ki taraf slide ho kar gayab ho */
+    body.loaded .loader-content {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+
     /* --- The Reveal Animation --- */
     /* 1. Text gayab hoga */
     body.loaded .loader-content {
@@ -1139,6 +1164,110 @@
       color: var(--text-main);
       transform: translateY(-2px);
     }
+
+    /* --- Contact Modal Styles & Animations --- */
+    .contact-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: var(--bg-glass);
+      backdrop-filter: blur(12px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s var(--ease);
+    }
+
+    .contact-modal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .contact-modal-content {
+      background: var(--bg-main);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      width: 100%;
+      max-width: 500px;
+      padding: 3rem;
+      position: relative;
+      /* Animation ke liye starting point */
+      transform: translateY(50px) scale(0.9);
+      transition: transform 0.5s var(--ease), background 0.6s var(--ease);
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Jab active ho to apni normal position par aa jaye */
+    .contact-modal.active .contact-modal-content {
+      transform: translateY(0) scale(1);
+    }
+
+    .close-contact {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: var(--highlight);
+      border: 1px solid var(--border-dim);
+      color: var(--text-main);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: transform 0.3s, background 0.3s;
+    }
+
+    .close-contact:hover {
+      transform: rotate(90deg);
+      /* Smooth rotate animation */
+      background: var(--text-main);
+      color: var(--bg-main);
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .input-group label {
+      font-family: var(--ff-mono);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--text-mute);
+      letter-spacing: 0.05em;
+    }
+
+    .input-group input,
+    .input-group textarea {
+      background: var(--bg-page);
+      border: 1px solid var(--border-dim);
+      padding: 1rem;
+      border-radius: 8px;
+      color: var(--text-main);
+      font-family: var(--ff-body);
+      font-size: 0.95rem;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      outline: none;
+    }
+
+    .input-group input:focus,
+    .input-group textarea:focus {
+      border-color: var(--text-main);
+      box-shadow: 0 0 0 3px var(--highlight);
+    }
   </style>
 </head>
 
@@ -1154,8 +1283,11 @@
     </div>
 
     <div class="loader-content">
-      <div class="loading-text" id="loadText">0%</div>
-      <div class="loading-label">PROCESSING DATA</div>
+      <div class="loading-label" id="loadingState">PROCESSING...</div>
+
+      <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
     </div>
   </div>
 
@@ -1294,18 +1426,52 @@
           conversations about data.
           Reach out on any platform below.</p>
       </div>
+
       <div class="contact-glass-box reveal d-1">
-        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=nitinredhu97@gmail.com&su=Inquiry&body=Hi%20Nitish," 
-     target="_blank" 
-     class="plain-email">
-    <span>Email me:</span> nitinredhu97@gmail.com
-  </a>
-        <a href="https://www.linkedin.com/in/nitish-redhu/" target="_blank" class="soc-btn"><i
-            class="fa-brands fa-linkedin"></i> LinkedIn</a>
+        <button id="openContactForm" class="btn-primary" style="font-size: 1rem; padding: 1rem 2.5rem;">
+          <i class="fa-regular fa-envelope"></i> Send a Message
+        </button>
+
+        <a href="https://www.linkedin.com/in/nitish-redhu/" target="_blank" class="soc-btn">
+          <i class="fa-brands fa-linkedin"></i> LinkedIn
+        </a>
       </div>
     </div>
 
     <div class="footer-minimal">Designed & built by Nitish Redhu · Data Analyst Student · Haryana, India · 2026</div>
+  </div>
+
+  <div class="contact-modal" id="contactModal">
+    <div class="contact-modal-content">
+      <button class="close-contact" id="closeContactBtn"><i class="fa-solid fa-xmark"></i></button>
+      <h3 class="res-name" style="font-size: 2.2rem; margin-bottom: 1.5rem;">Let's Talk</h3>
+
+      <form action="https://formsubmit.co/nitinredhu97@gmail.com" method="POST" class="contact-form" id="portfolioForm">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="box"> <input type="hidden" name="_subject"
+          value="New Lead from Portfolio!">
+        <div id="successMsg"
+          style="display: none; text-align: center; color: #22c55e; background: rgba(34, 197, 94, 0.1); padding: 1rem; border: 1px solid #22c55e; border-radius: 8px; font-family: var(--ff-mono); font-size: 0.85rem; margin-bottom: 1rem;">
+          <i class="fa-solid fa-circle-check"></i> Got your message! I will be in touch soon!
+        </div>
+        <div class="input-group">
+          <label>Your Name</label>
+          <input type="text" name="name" required placeholder="so I know who I am talking to">
+        </div>
+        <div class="input-group">
+          <label>Email Address</label>
+          <input type="email" name="email" required placeholder="I will reply here">
+        </div>
+        <div class="input-group">
+          <label>Message</label>
+          <textarea name="message" rows="4" required placeholder="Hi Nitish, I have a ..."></textarea>
+        </div>
+        <button type="submit" id="submitBtn" class="btn-primary" style="width: 100%; margin-top: 1rem;">
+          Send Message
+        </button>
+      </form>
+
+    </div>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -1428,32 +1594,124 @@
     if (resumeModal) resumeModal.addEventListener('click', e => { if (e.target === resumeModal) closeResume(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeResume(); });
 
-    // --- Data Bar Transition Logic ---
+    // --- Smooth Progress Bar & Text Transition Logic ---
     window.addEventListener('load', () => {
-      const loadText = document.getElementById('loadText');
+      const progressBar = document.getElementById('progressBar');
+      const loadingState = document.getElementById('loadingState');
       let progress = 0;
 
-      // Percentage badhane ka function
+      // Data Analyst theme wale loading texts
+      const states = [
+        "Starting with raw numbers...",
+        "Cleaning the chaos...",
+        "Finding hidden stories...",
+        "Turning data into insights...",
+        "Crafting the dashboard...",
+        "Bringing it all together...",
+        "Welcome 🚀"
+      ];
+
       const interval = setInterval(() => {
-        // Random numbers se progress badhegi (like real loading)
-        progress += Math.floor(Math.random() * 15) + 5;
+        // Random speed se progress aage badhegi
+        progress += Math.random() * 15 + 5;
 
         if (progress >= 100) {
           progress = 100;
-          loadText.innerText = progress + '%';
+          progressBar.style.width = '100%';
+          loadingState.innerText = states[states.length - 1]; // "READY."
           clearInterval(interval);
 
-          // 100% hone ke theek baad 'loaded' class add kar dein
+          // 100% hone ke baad thoda pause taaki user "Ready" padh sake
           setTimeout(() => {
             document.body.classList.add('loaded');
-          }, 300); // 100% par thoda sa pause
+          }, 500);
 
         } else {
-          loadText.innerText = progress + '%';
+          // Progress bar ki width update karna
+          progressBar.style.width = progress + '%';
+
+          // Progress ke percentage ke hisaab se text change karna
+          const stateIndex = Math.floor((progress / 100) * (states.length - 1));
+          loadingState.innerText = states[stateIndex];
         }
-      }, 100); // Har 0.1s me text update hoga
+      }, 150); // Har 0.15 second me smoothly update hoga
     });
+
+    // --- Contact Form Modal Logic ---
+    const openContactBtn = document.getElementById('openContactForm');
+    const contactModal = document.getElementById('contactModal');
+    const closeContactBtn = document.getElementById('closeContactBtn');
+
+    function toggleContactModal(show) {
+      if (show) {
+        contactModal.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Peeche ka scroll band karne ke liye
+      } else {
+        contactModal.classList.remove('active');
+        document.body.style.overflow = ''; // Scroll wapas on karne ke liye
+      }
+    }
+
+    // Events (Click sunne ke liye)
+    if (openContactBtn) {
+      openContactBtn.addEventListener('click', () => toggleContactModal(true));
+    }
+    if (closeContactBtn) {
+      closeContactBtn.addEventListener('click', () => toggleContactModal(false));
+    }
+
+    // Background pe click karne par bhi close ho jaye
+    if (contactModal) {
+      contactModal.addEventListener('click', (e) => {
+        if (e.target === contactModal) toggleContactModal(false);
+      });
+    }
+    // --- Form Submit in Background ---
+    const form = document.getElementById('portfolioForm');
+    const successMsg = document.getElementById('successMsg');
+    const submitBtn = document.getElementById('submitBtn');
+
+    if (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault(); // Ye form ko naye page par jaane se rokega
+
+        // Button ka text change karke loading feel dena
+        const originalBtnText = submitBtn.innerHTML;
+        submitBtn.innerHTML = 'Sending Data...';
+        submitBtn.style.opacity = '0.7';
+
+        const formData = new FormData(form);
+
+        // Data FormSubmit ko bhejna
+        fetch(form.action, {
+          method: 'POST',
+          body: formData
+        })
+          .then(response => {
+            if (response.ok) {
+              // Agar data chala gaya, toh success message dikhayein
+              successMsg.style.display = 'block';
+              form.reset(); // Inputs clear kar dein
+              submitBtn.innerHTML = originalBtnText;
+              submitBtn.style.opacity = '1';
+
+              // 3 second baad popup automatically band ho jayega
+              setTimeout(() => {
+                successMsg.style.display = 'none';
+                toggleContactModal(false);
+              }, 3000);
+            }
+          })
+          .catch(error => {
+            // Agar internet issue ya kuch error aaye
+            alert('Error connecting. Please try again.');
+            submitBtn.innerHTML = originalBtnText;
+            submitBtn.style.opacity = '1';
+          });
+      });
+    }
   </script>
+
 </body>
 
 </html>
