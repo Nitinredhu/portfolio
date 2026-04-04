@@ -1,18 +1,28 @@
 # nitinredhu.github.io
 
-Data Analytics Portfolio — turning messy data into clear insights.
+> Personal portfolio
 
-🔗 Live: https://nitinredhu.github.io/
+Built with pure HTML & CSS. No frameworks, no fluff.
+
+**Live site →** nitinredhu.github.io
+---
+
+### What's inside
+
+- `index.html` — single-page portfolio with projects and about me
 
 ---
 
-## Projects
-- Telco Churn → 26.54% churn identified, ₹139K revenue risk  
-- E-Commerce → 95K+ orders analyzed, top 3 categories = 68%  
-- Bellabeat → weak steps-sleep correlation (R² = 0.07)  
-- Productivity → focus > time, +12% improvement  
+### Featured Projects
+
+| Project | Tools | Impact |
+|---|---|---|
+| Telco Churn Analysis | SQL, Power BI | ₹42K/yr recovery projected |
+| E-Commerce Revenue | PostgreSQL | 95K+ orders analyzed |
+| Bellabeat Strategy | R, ggplot2 | 3 executive interventions |
+| Student Productivity | Python, Excel | 12% score increase projected |
 
 ---
 
-📍 Haryana, India  
-📧 nitinredhu97@gmail.com  
+*Open to entry-level Data Analyst roles · Haryana, India*  
+[LinkedIn](https://www.linkedin.com/in/nitish-redhu/) · [Kaggle](https://www.kaggle.com/nitinredhu) · nitinredhu97@gmail.com
